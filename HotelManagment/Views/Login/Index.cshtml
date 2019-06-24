@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<html>
+<body>
+    <link href="~/Content/index.css" rel="stylesheet" />
+    <div class="main-div">
+        <div class="row">
+            <div class="Col-md-12">
+
+                <div class="">
+                    <div class="content-div">
+                        <div class="logo-div">
+                            <img src="~/Images/logo1.jpg" />
+                        </div>
+                        <div>
+                            <div class="row">
+                                <input type="text" id="email" placeholder="E-Mail" />
+                            </div>
+                            <div class="row">
+                                <input type="password" id="password" placeholder="Password" />
+                            </div>
+                            <div class="row">
+                                <button id="login">Login</button>
+                                <a href="">Forget PassWord</a><br/>
+                                <a href="">SignUp</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+    var admin = '@Url.Action("Index","Admin")';
+    var user = '@Url.Action("Index","Admin")';
+
+    $("#login").click(function () {
+        var email = $("#email").val();
+        var pass = $("#password").val();
+        if (email == "") {
+            alert("please enter email");
+            return false;
+        }
+        else if (!emailReg.test(email)) {
+            alert('InValid Email');
+            return false
+        }
+        else if (pass == "") {
+            alert("please enter password.");
+            return false;
+        }
+        var data = { 'email': email, 'password': pass }
+        $.ajax({
+            type: "Post",
+            url: "/Login/Login",
+            type: "Post",
+            cache: false,
+            data: data,
+            success: function (result) {
+                if (result.success) {
+                    window.location.href = result.Message == "Admin" ? admin : user;
+                }
+                else
+                    alert(result.Message);
+            },
+            error: function (result) {
+
+            }
+        });
+    });
+</script>
