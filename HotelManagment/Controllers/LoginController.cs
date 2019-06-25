@@ -64,7 +64,7 @@ namespace HotelManagment.Controllers
 
         public ActionResult ForgotPassword()        
         {
-            return PartialView();
+            return View();
         }
 
         [HttpPost]
