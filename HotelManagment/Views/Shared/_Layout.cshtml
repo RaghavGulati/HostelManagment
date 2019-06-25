@@ -4,11 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/plugins/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
+    <link href="~/Content/css/plugins/ti-icons/css/themify-icons.css" rel="stylesheet" />
+    <link href="~/Content/css/plugins/fontawesome-free-5.8.1-web/css/all.css" rel="stylesheet" />
+    <link href="~/Content/css/plugins/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/css/custom-style.css" rel="stylesheet" />
+    <!-- Bootstrap Date-Picker Plugin -->
+    <link href="~/Content/css/plugins/daterangepicker.css" rel="stylesheet" />
+    <link href="~/Content/css/plugins/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/css/keyboard.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100vh !important;
+        }
+    </style>
 </head>
-<body>
+@*<body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -40,5 +55,178 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+</body>*@
+
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                @*<a class="navbar-brand brand-logo mr-5" href="#"><img src="/images/logo.png" class="mr-2" alt="logo" /></a>*@
+                <a class="navbar-brand brand-logo" href="#"><span>Hostel Management</span></a>
+                <a class="navbar-brand brand-logo-mini" href="#"><img src="/images/fav.png" alt="logo" /></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <span class="ti-menu"></span>
+                </button>
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item dropdown">
+                        <partial name="_SelectLanguagePartial" />
+                        @*<a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
+                                <img src="images/uk.png" alt=""> <i class="ti-angle-down ml-2 f-11"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="messageDropdown">
+                                <a class="dropdown-item">
+                                    <div class="item-thumbnail">
+                                        <img class="language-flag" src="images/uk.png" alt="English">
+                                    </div>
+                                    <div class="item-content flex-grow">
+                                        <h6 class="ellipsis font-weight-normal m-0">
+                                            English
+                                        </h6>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item">
+                                    <div class="item-thumbnail">
+                                        <img class="language-flag" src="images/norway.png" alt="English">
+                                    </div>
+                                    <div class="item-content flex-grow">
+                                        <h6 class="ellipsis font-weight-normal m-0">
+                                            Norwegain
+                                        </h6>
+                                    </div>
+                                </a>
+                            </div>*@
+                    </li>
+                    <li class="nav-item nav-profile">
+                        <a class="nav-link" asp-page="./Index" asp-page-handler="Logout">
+                            <i class="ti-power-off"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-profile">
+                        <a class="nav-link" href="#">
+                            <p>@User.Identity.Name</p>
+                        </a>
+                        @*<a class="nav-link"  asp-page="Index" asp-action="Logout">
+                                <p>Logout</p>
+                            </a>*@
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="ti-view-list"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="Index">
+                            <i class="ti-home menu-icon"></i>
+                            <span class="menu-title">Option 1</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="starttest">
+                            <i class="ti-write menu-icon"></i>
+                            <span class="menu-title">Option 2</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/locations">
+                            <i class="ti-map-alt menu-icon"></i>
+                            <span class="menu-title">Option 3</span>
+                        </a>
+                    </li>
+                    @*<li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="ti-user menu-icon"></i>
+                                <span class="menu-title">@SharedLocalizer["Admin_btnTestHistory"]</span>
+                            </a>
+                        </li>*@
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manageusers">
+                            <i class="ti-user menu-icon"></i>
+                            <span class="menu-title">Option 4</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manageroles">
+                            <i class="ti-shine menu-icon"></i>
+                            <span class="menu-title">Option 5</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="assignroles">
+                            <i class="ti-shine menu-icon"></i>
+                            <span class="menu-title">Option 7</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/managecategories">
+                            <i class="ti-panel menu-icon"></i>
+                            <span class="menu-title">Option 7</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        @RenderBody()
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+            </div>
+            <partial name="_ToastMessagesPartial" />
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+
+    <script src="~/Content/js/plugins/jquery-1.11.3.min.js"></script>
+    <script src="~/Content/js/popper.min.js"></script>
+    <script src="~/Content/js/plugins/jquery.dataTables.min.js"></script>
+    <script src="~/Content/js/plugins/dataTables.bootstrap4.min.js"></script>
+
+    <script src="~/Content/js/perfect-scrollbar.min.js"></script>
+    <script src="~/Content/js/plugins/jquery-ui.min.js"></script>
+    <script src="~/Content/js/plugins/moment.min.js"></script>
+    <script src="~/Content/js/jquery.keyboard.js"></script>
+    <script src="~/Content/js/jquery.mousewheel.js"></script>
+    <script src="~/Content/js/plugins/daterangepicker.min.js"></script>
+    <script src="~/Content/js/plugins/select2.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6/js/select2.min.js"></script>*@
+    <script src="~/Content/js/template.js"></script>
+    <script src="~/Content/js/off-canvas.js"></script>
+    <script src="~/Content/js/hoverable-collapse.js"></script>
+    <script src="~/Content/js/dashboard.js"></script>
+
+    @* On creen keyboard plugin url:-
+        //https://www.jqueryscript.net/other/jQuery-Virtual-Keyboard-Plugin-Keyboard.html
+    *@
+
+    <script src="~/Content/js/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/Content/js/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Content/js/jquery-ajax-unobtrusive/package/dist/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Content/js/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script>
+        $('.datepicker').datepicker({
+            dateFormat: ''
+        });
+    </script>
+
+
+
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
