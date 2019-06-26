@@ -6,20 +6,15 @@ using System.Web.Mvc;
 
 namespace HotelManagment.Controllers
 {
-    public class UserController : Controller
+    public class HostelController : Controller
     {
-        // GET: User
+        // GET: Hostel
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Profile()
-        {
-            return View();
-        }
-
-        public ActionResult ChangePassword()
+        public ActionResult AddRoom()
         {
             return View();
         }

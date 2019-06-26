@@ -18,7 +18,7 @@ namespace HotelManagment.Database_Model
         public int UserId { get; set; }
         public int CourseId { get; set; }
     
-        public virtual Cours Cours { get; set; }
+        public virtual Courses Cours { get; set; }
         public virtual User User { get; set; }
     }
 }
