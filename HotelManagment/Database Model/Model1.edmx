@@ -229,7 +229,6 @@
       <Schema Namespace="HostelManagmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="HostelManagmentEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AccessLogs" EntityType="HostelManagmentModel.AccessLog" />
-          <EntitySet Name="Beds" EntityType="HostelManagmentModel.Bed" />
           <EntitySet Name="Courses" EntityType="HostelManagmentModel.Courses" />
           <EntitySet Name="HostelRooms" EntityType="HostelManagmentModel.HostelRoom" />
           <EntitySet Name="User_Courses" EntityType="HostelManagmentModel.User_Courses" />
@@ -268,6 +267,7 @@
             <End Role="User" EntitySet="Users" />
             <End Role="User_Courses" EntitySet="User_Courses" />
           </AssociationSet>
+          <EntitySet Name="Beds" EntityType="HostelManagmentModel.Bed" />
           <AssociationSet Name="FK_User_Room_Bed_HostelRooms1" Association="HostelManagmentModel.FK_User_Room_Bed_HostelRooms1">
             <End Role="Bed" EntitySet="Beds" />
             <End Role="User_Room_Bed" EntitySet="User_Room_Bed" />
@@ -284,15 +284,6 @@
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="User" Relationship="HostelManagmentModel.FK_AccessLog_Users" FromRole="AccessLog" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Bed">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BedNumber" Type="Int32" />
-          <Property Name="Count" Type="Int32" />
-          <NavigationProperty Name="User_Room_Bed" Relationship="HostelManagmentModel.FK_User_Room_Bed_HostelRooms1" FromRole="Bed" ToRole="User_Room_Bed" />
         </EntityType>
         <EntityType Name="Courses">
           <Key>
@@ -468,6 +459,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Bed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Count" Type="Int32" />
+          <NavigationProperty Name="User_Room_Bed" Relationship="HostelManagmentModel.FK_User_Room_Bed_HostelRooms1" FromRole="Bed" ToRole="User_Room_Bed" />
+        </EntityType>
         <Association Name="FK_User_Room_Bed_HostelRooms1">
           <End Type="HostelManagmentModel.Bed" Role="Bed" Multiplicity="1" />
           <End Type="HostelManagmentModel.User_Room_Bed" Role="User_Room_Bed" Multiplicity="*" />
@@ -494,14 +493,6 @@
                 <ScalarProperty Name="LoginTime" ColumnName="LoginTime" />
                 <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Beds">
-            <EntityTypeMapping TypeName="HostelManagmentModel.Bed">
-              <MappingFragment StoreEntitySet="Beds">
-                <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -570,6 +561,14 @@
                 <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Beds">
+            <EntityTypeMapping TypeName="HostelManagmentModel.Bed">
+              <MappingFragment StoreEntitySet="Beds">
+                <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

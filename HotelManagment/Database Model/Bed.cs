@@ -21,7 +21,6 @@ namespace HotelManagment.Database_Model
         }
     
         public int Id { get; set; }
-        public Nullable<int> BedNumber { get; set; }
         public Nullable<int> Count { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

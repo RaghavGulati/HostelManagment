@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ee7ab02bd46e4b89a33e31541d3cfc6d" Name="Diagram1" ZoomLevel="71">
         <EntityTypeShape EntityType="HostelManagmentModel.AccessLog" Width="1.5" PointX="3" PointY="10.75" />
-        <EntityTypeShape EntityType="HostelManagmentModel.Bed" Width="1.5" PointX="5.75" PointY="1.125" />
         <EntityTypeShape EntityType="HostelManagmentModel.Courses" Width="1.5" PointX="5.75" PointY="4.125" />
         <EntityTypeShape EntityType="HostelManagmentModel.HostelRoom" Width="1.5" PointX="0.75" PointY="0.5" />
         <EntityTypeShape EntityType="HostelManagmentModel.User_Courses" Width="1.5" PointX="5.75" PointY="7.125" />
@@ -21,6 +20,7 @@
         <AssociationConnector Association="HostelManagmentModel.FK_User_Rooms_Users" />
         <AssociationConnector Association="HostelManagmentModel.FK_User_Courses_Courses" />
         <AssociationConnector Association="HostelManagmentModel.FK_User_Courses_Users" />
+        <EntityTypeShape EntityType="HostelManagmentModel.Bed" Width="1.5" PointX="5.375" PointY="0.875" />
         <AssociationConnector Association="HostelManagmentModel.FK_User_Room_Bed_HostelRooms1" />
       </Diagram>
     </edmx:Diagrams>
