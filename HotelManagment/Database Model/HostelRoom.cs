@@ -12,34 +12,26 @@ namespace HotelManagment.Database_Model
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class HostelRoom
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public HostelRoom()
         {
-            this.AccessLogs = new HashSet<AccessLog>();
             this.User_Room_Bed = new HashSet<User_Room_Bed>();
             this.User_Rooms = new HashSet<User_Rooms>();
-            this.User_Courses = new HashSet<User_Courses>();
         }
     
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public bool IsAdmin { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Mobile { get; set; }
-        public string Address { get; set; }
-        public bool IsActive { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int Floor { get; set; }
+        public Nullable<decimal> Rating { get; set; }
+        public int NoOfBeds { get; set; }
+        public int RoomNo { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccessLog> AccessLogs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Room_Bed> User_Room_Bed { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Rooms> User_Rooms { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User_Courses> User_Courses { get; set; }
     }
 }
