@@ -36,37 +36,10 @@
                     <span class="ti-menu"></span>
                 </button>
                 <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown">
-                        <partial name="_SelectLanguagePartial" />
-                        @*<a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
-                                <img src="images/uk.png" alt=""> <i class="ti-angle-down ml-2 f-11"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="messageDropdown">
-                                <a class="dropdown-item">
-                                    <div class="item-thumbnail">
-                                        <img class="language-flag" src="images/uk.png" alt="English">
-                                    </div>
-                                    <div class="item-content flex-grow">
-                                        <h6 class="ellipsis font-weight-normal m-0">
-                                            English
-                                        </h6>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item">
-                                    <div class="item-thumbnail">
-                                        <img class="language-flag" src="images/norway.png" alt="English">
-                                    </div>
-                                    <div class="item-content flex-grow">
-                                        <h6 class="ellipsis font-weight-normal m-0">
-                                            Norwegain
-                                        </h6>
-                                    </div>
-                                </a>
-                            </div>*@
-                    </li>
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="~/Content/images/user/face28.jpg" alt="profile" />
+                            @*<img src="~/Content/images/user/face28.jpg" alt="profile" />*@
+                            User Name
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                             <a class="dropdown-item">
@@ -91,39 +64,33 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="Index">
+                        <a class="nav-link" href="#">
                             <i class="ti-home menu-icon"></i>
-                            <span class="menu-title">Option 1</span>
+                            <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="starttest">
-                            <i class="ti-write menu-icon"></i>
-                            <span class="menu-title">Option 2</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/locations">
-                            <i class="ti-map-alt menu-icon"></i>
-                            <span class="menu-title">Option 3</span>
-                        </a>
-                    </li>
-                    @*<li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="ti-user menu-icon"></i>
-                                <span class="menu-title">@SharedLocalizer["Admin_btnTestHistory"]</span>
-                            </a>
-                        </li>*@
-                    <li class="nav-item">
-                        <a class="nav-link" href="/manageusers">
+                        <a class="nav-link" href="/User/Profile">
                             <i class="ti-user menu-icon"></i>
-                            <span class="menu-title">Option 4</span>
+                            <span class="menu-title">My Profile</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/manageroles">
-                            <i class="ti-shine menu-icon"></i>
-                            <span class="menu-title">Option 5</span>
+                        <a class="nav-link" href="User/ChangePassword">
+                            <i class="ti-shield menu-icon"></i>
+                            <span class="menu-title">Security</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Hostel/AddRoom">
+                            <i class="ti-home menu-icon"></i>
+                            <span class="menu-title">Add Hostel</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Course/AddCourse">
+                            <i class="ti-book menu-icon"></i>
+                            <span class="menu-title">Add Course</span>
                         </a>
                     </li>
                     <li class="nav-item">
