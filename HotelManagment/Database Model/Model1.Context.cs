@@ -32,13 +32,8 @@ namespace HotelManagment.Database_Model
         public virtual DbSet<User_Room_Bed> User_Room_Bed { get; set; }
         public virtual DbSet<User_Rooms> User_Rooms { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<AccessLog> AccessLogs { get; set; }
         public virtual DbSet<Bed> Beds { get; set; }
-        public virtual DbSet<Cours> Courses { get; set; }
-        public virtual DbSet<HostelRoom> HostelRooms { get; set; }
-        public virtual DbSet<User_Courses> User_Courses { get; set; }
-        public virtual DbSet<User_Room_Bed> User_Room_Bed { get; set; }
-        public virtual DbSet<User_Rooms> User_Rooms { get; set; }
-        public virtual DbSet<Bed> Beds { get; set; }
+        public virtual DbSet<Gender> Genders { get; set; }
+        public virtual DbSet<User_Address> User_Address { get; set; }
     }
 }

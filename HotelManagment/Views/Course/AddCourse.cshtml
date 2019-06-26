@@ -1,4 +1,4 @@
-﻿
+﻿@model HotelManagment.Database_Model.Courses
 @{
     ViewBag.Title = "AddCourse";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,15 +16,15 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Course Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control name" })
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Course Code</label>
+                                <label class="col-sm-3 col-form-label">IsActive</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "isactive" })
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Course Description</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @Html.TextAreaFor(x => x.Description, new { @class = "desc form-control" })
                                 </div>
                             </div>
                         </div>
@@ -42,26 +42,52 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Course Fees</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @Html.TextBoxFor(x => x.Fees, new { @class = "fees form-control" })
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Duration</label>
-                                <div class="col-sm-9">
-                                    <input class="form-control" placeholder="dd/mm/yyyy">
+                    @*<div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Duration</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" placeholder="dd/mm/yyyy">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>*@
+                    <input type="button" id="savecourse" value="Save" />
                 </form>
             </div>
             <!-- /CARD HEADER END -->
         </div>
     </div>
-
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $("#savecourse").click(function () {
+        var name = $(".name").val();
+        var desc = $(".desc").val();
+        var fees = $(".fees").val();
+        var isactive = $(".isactive").is(":checked")?true:false;
+        var data = { "Name": name, "Description": desc, "Fees": fees, "IsActive": isactive };
+        $.ajax({
+            type: "Post",
+            url: "/Course/SaveCourse",
+            cache: false,
+            data: data,
+            success: function (result) {
+                if (result.success) {
+                    debugger;
+                }
+                else
+                    alert(result.Message);
+            },
+            error: function (result) {
 
+            }
+        });
+
+    });
+</script>

@@ -3,7 +3,13 @@
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+</script>
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body p-0">
@@ -48,7 +54,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Date of Birth</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control" placeholder="dd/mm/yyyy">
+                                    <input class="form-control" id="datepicker" placeholder="dd/mm/yyyy">
                                 </div>
                             </div>
                         </div>

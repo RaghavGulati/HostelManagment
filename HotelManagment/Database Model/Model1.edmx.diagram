@@ -22,6 +22,9 @@
         <AssociationConnector Association="HostelManagmentModel.FK_User_Courses_Users" />
         <EntityTypeShape EntityType="HostelManagmentModel.Bed" Width="1.5" PointX="5.375" PointY="0.875" />
         <AssociationConnector Association="HostelManagmentModel.FK_User_Room_Bed_HostelRooms1" />
+        <EntityTypeShape EntityType="HostelManagmentModel.Gender" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HostelManagmentModel.User_Address" Width="1.5" PointX="3" PointY="14" />
+        <AssociationConnector Association="HostelManagmentModel.FK_User_Address_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
