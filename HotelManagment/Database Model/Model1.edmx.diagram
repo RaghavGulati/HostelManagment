@@ -6,6 +6,21 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ee7ab02bd46e4b89a33e31541d3cfc6d" Name="Diagram1">
         <EntityTypeShape EntityType="HostelManagmentModel.User" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HostelManagmentModel.AccessLog" Width="1.5" PointX="3" PointY="12.125" />
+        <EntityTypeShape EntityType="HostelManagmentModel.Bed" Width="1.5" PointX="0.75" PointY="16" />
+        <EntityTypeShape EntityType="HostelManagmentModel.Cours" Width="1.5" PointX="0.75" PointY="12.5" />
+        <EntityTypeShape EntityType="HostelManagmentModel.HostelRoom" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="HostelManagmentModel.User_Courses" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="HostelManagmentModel.User_Room_Bed" Width="1.5" PointX="3" PointY="6.5" />
+        <EntityTypeShape EntityType="HostelManagmentModel.User_Rooms" Width="1.5" PointX="3" PointY="0.75" />
+        <AssociationConnector Association="HostelManagmentModel.FK_AccessLog_Users" />
+        <AssociationConnector Association="HostelManagmentModel.FK_User_Room_Bed_HostelRooms" />
+        <AssociationConnector Association="HostelManagmentModel.FK_User_Courses_Courses" />
+        <AssociationConnector Association="HostelManagmentModel.FK_User_Room_Bed_User_Room_Bed" />
+        <AssociationConnector Association="HostelManagmentModel.FK_User_Rooms_HostelRooms" />
+        <AssociationConnector Association="HostelManagmentModel.FK_User_Courses_Users" />
+        <AssociationConnector Association="HostelManagmentModel.FK_User_Room_Bed_Users" />
+        <AssociationConnector Association="HostelManagmentModel.FK_User_Rooms_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
