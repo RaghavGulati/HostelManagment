@@ -17,19 +17,19 @@
 
 .card_head {
     padding: 15px;
-    margin-bottom: 25px;
+    /*margin-bottom: 25px;*/
     background: #e2e2e2;
 }
 .card_head_white {
     padding: 15px;
-    margin-bottom: 25px;
+    /*margin-bottom: 25px;*/
     background: #ffffff;
 }
 
-    .card_head form {
+    /*.card_head form {
         display: flex;
         flex-wrap: wrap;
-    }
+    }*/
 
         /*.card_head form label {
                     line-height: 2.25rem;
@@ -434,4 +434,26 @@ input#keyboard {
 /***** START CSTM CSS FOR SELECT2 *****/
 .status-btn {
     min-width: 70px;
+}
+.forgot-btn-block {
+    display: flex;
+    justify-content: space-between;
+}
+/*input.btn.btn-cacel {
+    border: 2px solid #dfb159;
+    color: #dfb159 !important;
+    background-color: transparent;
+}*/
+.card .cstm-card-title {
+    color: #a0a0a0;
+    margin-bottom: 0px;
+    text-transform: uppercase;
+    font-size: 15px;
+    padding: 10px 0px;
+    background-color: #fff;
+}
+
+.cstm-flex {
+    display: flex;
+    flex-wrap: wrap;
 }
