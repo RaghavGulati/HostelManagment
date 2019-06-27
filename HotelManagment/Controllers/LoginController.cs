@@ -1,4 +1,5 @@
 ﻿using HotelManagment.Database_Model;
+using HotelManagment.Helpers;
 using HotelManagment.Models;
 using HotelManagment.Models.User;
 using System;
@@ -12,85 +13,135 @@ namespace HotelManagment.Controllers
     public class LoginController : Controller
     {
         HostelManagmentEntities entity = new HostelManagmentEntities();
+        Common helper = new Common();
         // GET: Login
         public ActionResult Index()
         {
             return View();
         }
 
-        /// <summary>
-        /// Checking the user credentials, Also Checks User is Admin or not.
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
         [HttpPost]
-        public ActionResult Login(string email, string password)
+        public JsonResult Login(string email, string password)
         {
             AjaxModel model = new AjaxModel();
-            var user = FindUser(email);//(from usr in entity.Users where usr.Email == email select usr).FirstOrDefault();
-            if (user == null || !String.Equals(Decode(user.Password), password))
+            int userid = 0;
+            try
             {
-                model.Success = false;
-                model.Message = "InValid Credentials..";
+                var user = FindUser(email);//(from usr in entity.Users where usr.Email == email select usr).FirstOrDefault();
+                if (user == null || !String.Equals(helper.Decode(user.Password), password))
+                {
+                    model.Success = false;
+                    model.Message = "InValid Credentials..";
+                    return Json(model, JsonRequestBehavior.AllowGet);
+                }
+                else if (user.IsActive == false)
+                {
+                    model.Success = false;
+                    model.Message = "Your account is not yet approved by administrator. Please try later.";
+                    return Json(model, JsonRequestBehavior.AllowGet);
+                }
+                userid = user.Id;
+                helper.ManageLogs(user.Id, "User Login to the account");
+                model.Success = true;
+                model.Message = user.IsAdmin ? "Admin" : "User";
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
-            model.Success = true;
-            model.Message = user.IsAdmin ? "Admin" : "User";
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
+            catch (Exception ex)
+            {
+                helper.ManageLogs(userid, "User Login to the account");
+                model.Success = false;
+                model.Message = ex.Message;
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
 
-        public ActionResult SignUp()
-        {
-            UserModel model = new UserModel();
-            return View(model);
         }
 
         [HttpPost]
-        public ActionResult CreateUser(UserModel model)
+        public JsonResult CreateUser(string email, string name, string password)
         {
-            //User user = new User();
-            //user.FirstName = model.FirstName;
-            //user.LastName = model.LastName;
-            //user.Mobile = model.Mobile;
-            //user.IsAdmin = false;
-            //user.Password = Encode(model.Password.ToString());
-            //user.Email = model.Email;
-            //user.Address = model.Address;
-            //entity.Users.Add(user);
-            //entity.SaveChanges();   
-            return Content("");
-        }
+            AjaxModel model = new AjaxModel();
+            try
+            {
+                var existuser = FindUser(email);
+                if (existuser != null)
+                {
+                    model.Success = false;
+                    model.Message = "Email already exist in database.";
+                    return Json(model, JsonRequestBehavior.AllowGet);
+                }
+                User user = new User();
+                user.FirstName = name;
+                user.IsAdmin = false;
+                user.Password = helper.Encode(password);
+                user.Email = email;
+                user.IsProfileCompleted = false;
+                user.CreatedOn = DateTime.Now;
+                user.IsActive = false;
+                entity.Users.Add(user);
+                entity.SaveChanges();
+                helper.ManageLogs(user.Id, "New User Created");
+                model.Success = true;
+                model.Message = "Your account has been created successfull. Please wait untill administrator apporves your account.";
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                model.Success = false;
+                model.Message = ex.Message;
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
 
-        public ActionResult ForgotPassword()        
-        {
-            return View();
         }
 
         [HttpPost]
         public ActionResult UpdatePassword(string email, string newPassword)
         {
             var user = FindUser(email);
-            user.Password = Encode(newPassword);
+            user.Password = helper.Encode(newPassword);
             entity.SaveChanges();
+            helper.ManageLogs(user.Id, "Password updated by user.");
             return View();
         }
 
+        [HttpPost]
+        public JsonResult ResetPasswords(string email)
+        {
+            AjaxModel result = new AjaxModel();
+            int userid = 0;
+            try
+            {
+                var user = FindUser(email);
+                if (user == null)
+                {
+                    result.Success = false;
+                    result.Message = "Email doesn't exist..";
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+                userid = user.Id;
+                Random random = new Random();
+                int value = random.Next(10000);
+                user.RecoveryPassword = value;
+                entity.SaveChanges();
+                helper.ManageLogs(user.Id, "Password reset code genrated by user.");
+                result.Success = true;
+                result.Message = "Password recovery code has been send to your email. Please enter the code.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                helper.ManageLogs(userid, ex.Message);
+                result.Success = false;
+                result.Message = ex.Message;
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
         private User FindUser(string email)
         {
-            var user = (from usr in entity.Users where usr.Email == email select usr).FirstOrDefault();
+            UserModel model = new UserModel();
+            var user = (from usr in entity.Users where usr.Email.ToLower().ToString() == email.ToLower().ToString() select usr).FirstOrDefault();
             return user;
         }
-        private string Encode(string encodeMe)
-        {
-            byte[] encoded = System.Text.Encoding.UTF8.GetBytes(encodeMe);
-            return Convert.ToBase64String(encoded);
-        }
 
-        private static string Decode(string decodeMe)
-        {
-            byte[] encoded = Convert.FromBase64String(decodeMe);
-            return System.Text.Encoding.UTF8.GetString(encoded);
-        }
+
     }
 }

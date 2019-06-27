@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group forgot-btn-block">
                     <input type="button" value="cancel" class="btn btn-cacel" />
-                    <input type="submit" asp-page-handler="Login" value="Login" class="btn btn-default" />
+                    <input type="button" id="forget_btn" value="Continue" class="btn btn-default" />
                 </div>
             </div>
             <div id="formFooter">
@@ -79,19 +79,19 @@
             <div class="login">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Full Name" />
+                    <input class="form-control" type="text" id="new-name" placeholder="Name" />
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Email" />
+                    <input class="form-control" type="text" id="new_email" placeholder="Email" />
                 </div>
                 <div class="form-group">
-                    <input for="password" class="form-control" type="password" placeholder="Password" />
+                    <input for="password" class="form-control" type="password" id="new-pass" autocomplete="off" placeholder="Password" />
                 </div>
                 <div class="form-group">
-                    <input for="password" class="form-control" type="password" placeholder="Confirm Password" />
+                    <input for="password" class="form-control" type="password" id="new-cnfrmpass" autocomplete="off" placeholder="Confirm Password" />
                 </div>
                 <div class="form-group">
-                    <input type="submit" asp-page-handler="Login" value="Login" class="btn btn-default" />
+                    <input type="button" value="SignUp" id="signup" class="btn btn-default" />
                 </div>
             </div>
 
@@ -143,24 +143,100 @@
             cache: false,
             data: data,
             success: function (result) {
-                if (result.success) {
+                if (result.Success) {
                     window.location.href = result.Message == "Admin" ? admin : user;
                 }
                 else
                     alert(result.Message);
             },
             error: function (result) {
-
+                alert(result.Message);
             }
         });
     });
+
     $("#createaccount").click(function () {
         $('.signup').show();
         $('.signin').hide();
     });
+
     $("#signin").click(function () {
         $('.signup').hide();
         $('.signin').show();
     });
 
+    $("#forget_btn").click(function () {
+        var email = $("#forgot_email").val();
+        var data = { 'email': email }
+        $.ajax({
+            type: "Post",
+            url: "/Login/ResetPasswords",
+            type: "Post",
+            cache: false,
+            data: data,
+            success: function (result) {
+                if (result.Success) {
+                    debugger;
+                    alert(result.Message);
+                }
+                else
+                    alert(result.Message);
+            },
+            error: function (result) {
+                alert(result.Message);
+            }
+        });
+    });
+
+    $("#signup").click(function () {
+
+        var name = $("#new-name").val();
+        var email = $("#new_email").val();
+        var pass = $("#new-pass").val();
+        var cnfrm = $("#new-cnfrmpass").val();
+        debugger;
+        if (name == "") {
+            alert("please enter name");
+            return false;
+        }
+        else if (email == "") {
+            alert("please enter email");
+            return false;
+        }
+        else if (!emailReg.test(email)) {
+            alert('Invalid Email');
+            return false
+        }
+        else if (pass == "") {
+            alert("please enter password.");
+            return false;
+        }
+        else if (cnfrm == "") {
+            alert("please enter confirm password.");
+            return false;
+        }
+        else if (cnfrm != pass) {
+            alert("Password mismatch");
+            return false;
+        }
+        var data = { "email": email, "name": name, "password": pass }
+        $.ajax({
+            type: "Post",
+            url: "/Login/CreateUser",
+            type: "Post",
+            cache: false,
+            data: data,
+            success: function (result) {
+                if (result.Success) {
+                    debugger;
+                    alert(result.Message);
+                }
+                else
+                    alert(result.Message);
+            },
+            error: function (result) {
+                alert(result.Message);
+            }
+        });
+    });
 </script>

@@ -17,9 +17,8 @@ namespace HotelManagment.Database_Model
         public int Id { get; set; }
         public int UserId { get; set; }
         public string IpAddress { get; set; }
-        public Nullable<System.DateTime> LoginTime { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
+        public string Description { get; set; }
+        public Nullable<System.DateTime> Time { get; set; }
     
         public virtual User User { get; set; }
     }

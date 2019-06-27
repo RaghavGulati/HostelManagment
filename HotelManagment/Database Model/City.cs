@@ -12,20 +12,20 @@ namespace HotelManagment.Database_Model
     using System;
     using System.Collections.Generic;
     
-    public partial class User_Address
+    public partial class City
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
-        public int CityId { get; set; }
-        public int StateId { get; set; }
-        public string PostCode { get; set; }
-        public int CountryId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public City()
+        {
+            this.User_Address = new HashSet<User_Address>();
+        }
     
-        public virtual City City { get; set; }
-        public virtual Country Country { get; set; }
+        public int Id { get; set; }
+        public string City1 { get; set; }
+        public int StateId { get; set; }
+    
         public virtual State State { get; set; }
-        public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User_Address> User_Address { get; set; }
     }
 }
