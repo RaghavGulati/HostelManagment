@@ -1,5 +1,4 @@
-﻿using HotelManagment.Database_Model;
-using HotelManagment.Models;
+﻿using HotelManagment.Models;
 using HotelManagment.Models.User;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ namespace HotelManagment.Controllers
 {
     public class LoginController : Controller
     {
-        HostelManagmentEntities entity = new HostelManagmentEntities();
+        //HostelManagmentEntities entity = new HostelManagmentEntities();
         // GET: Login
         public ActionResult Index()
         {
@@ -28,15 +27,15 @@ namespace HotelManagment.Controllers
         public ActionResult Login(string email, string password)
         {
             AjaxModel model = new AjaxModel();
-            var user = FindUser(email);//(from usr in entity.Users where usr.Email == email select usr).FirstOrDefault();
-            if (user == null || !String.Equals(Decode(user.Password), password))
-            {
-                model.Success = false;
-                model.Message = "InValid Credentials..";
-                return Json(model, JsonRequestBehavior.AllowGet);
-            }
-            model.Success = true;
-            model.Message = user.IsAdmin ? "Admin" : "User";
+            //var user = FindUser(email);//(from usr in entity.Users where usr.Email == email select usr).FirstOrDefault();
+            //if (user == null || !String.Equals(Decode(user.Password), password))
+            //{
+            //    model.Success = false;
+            //    model.Message = "InValid Credentials..";
+            //    return Json(model, JsonRequestBehavior.AllowGet);
+            //}
+            //model.Success = true;
+            //model.Message = user.IsAdmin ? "Admin" : "User";
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
@@ -70,17 +69,17 @@ namespace HotelManagment.Controllers
         [HttpPost]
         public ActionResult UpdatePassword(string email, string newPassword)
         {
-            var user = FindUser(email);
-            user.Password = Encode(newPassword);
-            entity.SaveChanges();
+            //var user = FindUser(email);
+            //user.Password = Encode(newPassword);
+            //entity.SaveChanges();
             return View();
         }
 
-        private User FindUser(string email)
-        {
-            var user = (from usr in entity.Users where usr.Email == email select usr).FirstOrDefault();
-            return user;
-        }
+        //private User FindUser(string email)
+        //{
+        //    var user = (from usr in entity.Users where usr.Email == email select usr).FirstOrDefault();
+        //    return user;
+        //}
         private string Encode(string encodeMe)
         {
             byte[] encoded = System.Text.Encoding.UTF8.GetBytes(encodeMe);
