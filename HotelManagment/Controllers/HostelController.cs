@@ -18,5 +18,10 @@ namespace HotelManagment.Controllers
         {
             return View();
         }
+
+        public ActionResult AssignRoom()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "AssignRoom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-md-5 grid-margin stretch-card">
+    <div class="w-100 pb-5">
+        <div class="wizard">
+            <nav class="list-group list-group-flush">
+                <a class="list-group-item" href="#">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fe-icon-shopping-bag mr-1 text-muted"></i>
+                            <div class="d-inline-block font-weight-medium text-uppercase">Student Name</div>
+                        </div><span>Raghav Gulati</span>
+                    </div>
+                </a>
+                <a class="list-group-item" href="#">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fe-icon-shopping-bag mr-1 text-muted"></i>
+                            <div class="d-inline-block font-weight-medium text-uppercase">Email Address</div>
+                        </div><span>abc@gmail.com</span>
+                    </div>
+                </a>
+                <a class="list-group-item" href="#">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fe-icon-heart mr-1 text-muted"></i>
+                            <div class="d-inline-block font-weight-medium text-uppercase">Address</div>
+                        </div><span>#123, loreum ipsum</span>
+                    </div>
+                </a>
+                <a class="list-group-item" href="#">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fe-icon-tag mr-1 text-muted"></i>
+                            <div class="d-inline-block font-weight-medium text-uppercase">My Cources</div>
+                        </div><span class="badge badge-secondary">4</span>
+                    </div>
+                </a>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-7 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body p-0">
+            <p class="card-title">Change Password</p>
+            <!-- CARD HEADER START -->
+            <div class="card_head">
+                <form class="form-sample">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">First Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Last Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Gender</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control">
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Membership</label>
+                                <div class="col-sm-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios1" value="" checked="">
+                                            Free
+                                            <i class="input-helper"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios2" value="option2">
+                                            Professional
+                                            <i class="input-helper"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Membership 1</label>
+                                <div class="col-sm-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="membershipRadios" id="membershipRadios1" value="" checked="">
+                                            Free
+                                            <i class="input-helper"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="membershipRadios" id="membershipRadios2" value="option2">
+                                            Professional
+                                            <i class="input-helper"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary mr-2">Assign</button>
+                        <button class="btn btn-light">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /CARD HEADER END -->
+        </div>
+    </div>
+
+</div>
