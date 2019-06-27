@@ -12,9 +12,20 @@ namespace HotelManagment.Controllers
     {
         HostelManagmentEntities entity = new  HostelManagmentEntities();
         // GET: Course
-        public ActionResult AddCourse()
+        public ActionResult AllCourses()
+        {
+            var courses = (from cors in entity.Courses select cors).ToList();
+            return View(courses);
+        }
+        
+
+        public ActionResult AddCourse(int? Id)
         {
             Courses model = new Courses();
+            if (Id > 0)
+            {
+                model = (from cors in entity.Courses where cors.Id == Id select cors).FirstOrDefault();
+            }
             return View(model);
         }
 

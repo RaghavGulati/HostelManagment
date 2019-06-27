@@ -14,10 +14,18 @@ namespace HotelManagment
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+          name: "AdminDashBoard",
+          url: "AdminDashBoard",
+          defaults: new { controller = "Admin", action = "Index" }
+      );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
             );
+
+
         }
     }
 }

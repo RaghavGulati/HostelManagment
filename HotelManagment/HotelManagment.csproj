@@ -237,6 +237,7 @@
     </Compile>
     <Compile Include="Helpers\Common.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminModal.cs" />
     <Compile Include="Models\AjaxModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -2037,6 +2038,7 @@
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\Course\AddCourse.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\Course\AllCourses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
