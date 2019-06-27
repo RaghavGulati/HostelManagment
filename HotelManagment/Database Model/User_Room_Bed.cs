@@ -19,10 +19,8 @@ namespace HotelManagment.Database_Model
         public int RoomId { get; set; }
         public int BedId { get; set; }
     
-        public virtual HostelRoom HostelRoom { get; set; }
-        public virtual User_Room_Bed User_Room_Bed1 { get; set; }
-        public virtual User_Room_Bed User_Room_Bed2 { get; set; }
         public virtual Bed Bed { get; set; }
+        public virtual HostelRoom HostelRoom { get; set; }
         public virtual User User { get; set; }
     }
 }

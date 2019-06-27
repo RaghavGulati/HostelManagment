@@ -17,11 +17,11 @@ namespace HotelManagment.Database_Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
+            this.AccessLogs = new HashSet<AccessLog>();
             this.User_Address = new HashSet<User_Address>();
             this.User_Courses = new HashSet<User_Courses>();
             this.User_Room_Bed = new HashSet<User_Room_Bed>();
             this.User_Rooms = new HashSet<User_Rooms>();
-            this.AccessLogs = new HashSet<AccessLog>();
         }
     
         public int Id { get; set; }
@@ -40,6 +40,8 @@ namespace HotelManagment.Database_Model
         public Nullable<System.DateTime> CreatedOn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccessLog> AccessLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Address> User_Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Courses> User_Courses { get; set; }
@@ -47,7 +49,5 @@ namespace HotelManagment.Database_Model
         public virtual ICollection<User_Room_Bed> User_Room_Bed { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Rooms> User_Rooms { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccessLog> AccessLogs { get; set; }
     }
 }

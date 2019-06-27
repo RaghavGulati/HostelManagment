@@ -49,5 +49,11 @@ namespace HotelManagment.Helpers
             }
             return IPAddress;
         }
+
+        //public User GetCurrentUser()
+        //{
+        //    var user = (User)Session["CurrentUser"];
+        //    return user;
+        //}
     }
 }

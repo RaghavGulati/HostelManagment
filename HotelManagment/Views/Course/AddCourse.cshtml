@@ -11,6 +11,7 @@
             <!-- CARD HEADER START -->
             <div class="card_head">
                 <form class="form-sample">
+                    <input type="hidden" value="@Model.Id" id="courseId" />
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
@@ -21,10 +22,25 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">IsActive</label>
-                                <div class="col-sm-9">
-                                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "isactive" })
+                            <div class="form-group">
+                                <div class="form-check form-check-primary">
+                                    <label class="form-check-label">
+                                        Is Active
+                                        @{
+                                            if (Model.IsActive)
+                                            {
+                                                <input type="checkbox" class="isactive form-check-input" checked="">
+                                                <i class="input-helper"></i>
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="isactive form-check-input">
+                                                <i class="input-helper"></i>
+                                            }
+
+                                        }
+                                       
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -47,17 +63,17 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Duration</label>
-                                    <div class="col-sm-9">
-                                        <input class="form-control" placeholder="dd/mm/yyyy">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-                    <input type="button" id="savecourse" value="Save" />
+                    <div class="text-right">
+                        @{ if (Model.Id>0)
+                            {
+                                <button type="button" id="savecourse" class="btn btn-primary mr-2">Update Course</button>    }
+                            else
+                            {
+                                <button type="button" id="savecourse" class="btn btn-primary mr-2">Add Course</button>
+                            }}
+                        
+                        <button class="btn btn-light">Cancel</button>
+                    </div>
                 </form>
             </div>
             <!-- /CARD HEADER END -->
@@ -71,7 +87,7 @@
         var desc = $(".desc").val();
         var fees = $(".fees").val();
         var isactive = $(".isactive").is(":checked")?true:false;
-        var data = { "Name": name, "Description": desc, "Fees": fees, "IsActive": isactive };
+        var data = {"Id":$("#courseId").val(), "Name": name, "Description": desc, "Fees": fees, "IsActive": isactive };
         $.ajax({
             type: "Post",
             url: "/Course/SaveCourse",
@@ -79,7 +95,7 @@
             data: data,
             success: function (result) {
                 if (result.success) {
-                    debugger;
+                    alert(result.Message);
                 }
                 else
                     alert(result.Message);

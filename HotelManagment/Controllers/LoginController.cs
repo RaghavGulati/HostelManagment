@@ -42,6 +42,8 @@ namespace HotelManagment.Controllers
                 }
                 userid = user.Id;
                 helper.ManageLogs(user.Id, "User Login to the account");
+                Session["CurrentUser"] = user;
+
                 model.Success = true;
                 model.Message = user.IsAdmin ? "Admin" : "User";
                 return Json(model, JsonRequestBehavior.AllowGet);
