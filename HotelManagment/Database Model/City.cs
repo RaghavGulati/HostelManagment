@@ -24,8 +24,8 @@ namespace HotelManagment.Database_Model
         public string City1 { get; set; }
         public int StateId { get; set; }
     
+        public virtual State State { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Address> User_Address { get; set; }
-        public virtual State State { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@model HotelManagment.Models.User.UserModel
 @{
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,9 +6,9 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
+    $(function () {
+        $(".datepicker").datepicker();
+    });
 </script>
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
@@ -16,16 +16,18 @@
             <p class="card-title">User Details</p>
             <!-- CARD HEADER START -->
             <div class="card_head">
-                <form class="form-sample">
+                <form id="form" class="form-sample">
                     <p class="card-description">
                         Personal info
                     </p>
+                    @Html.HiddenFor(x => x.UserId)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">First Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @*<input type="text" class="form-control">*@
+                                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @maxlength = "20" })
                                 </div>
                             </div>
                         </div>
@@ -33,7 +35,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Last Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @*<input type="text" class="form-control">*@
+                                    @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" ,@maxlength = "20" })
                                 </div>
                             </div>
                         </div>
@@ -43,7 +46,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Gender</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control">
+                                    <select class="form-control" id="gender" name="Gender">
                                         <option>Male</option>
                                         <option>Female</option>
                                     </select>
@@ -54,7 +57,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Date of Birth</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control" id="datepicker" placeholder="dd/mm/yyyy">
+                                    @*<input class="form-control" id="datepicker" placeholder="dd/mm/yyyy">*@
+                                    @Html.TextBoxFor(x => x.Dob, new { @class = "form-control datepicker" })
                                 </div>
                             </div>
                         </div>
@@ -62,35 +66,54 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Category</label>
+                                <label class="col-sm-3 col-form-label">Mobile</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option>Category1</option>
-                                        <option>Category2</option>
-                                        <option>Category3</option>
-                                        <option>Category4</option>
-                                    </select>
+                                    @Html.TextBoxFor(x => x.Mobile, new { @class = "form-control number", @maxlength = "12" })
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Membership</label>
+                                @*<label class="col-sm-3 col-form-label">IsAdmin</label>*@
                                 <div class="col-sm-4">
-                                    <div class="form-check">
+                                    <div class="form-check form-check-primary">
                                         <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios1" value="" checked="">
-                                            Free
-                                            <i class="input-helper"></i>
+                                            Is Active
+                                            @{
+                                                if (Model.IsActive)
+                                                {
+                                                    <input type="checkbox" name="IsActive" class="isactive form-check-input" checked="">
+                                                    <i class="input-helper" name="IsActive"></i>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" name="IsActive" class="isactive form-check-input">
+                                                    <i class="input-helper" name="IsActive"></i>
+                                                }
+
+                                            }
+
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-5">
-                                    <div class="form-check">
+                                    <div class="form-check form-check-primary">
                                         <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios2" value="option2">
-                                            Professional
-                                            <i class="input-helper"></i>
+                                            Is Admin
+                                            @{
+                                                if (Model.IsAdmin)
+                                                {
+                                                    <input type="checkbox" name="IsAdmin" class="isadmin form-check-input" checked="">
+                                                    <i class="input-helper" name="IsAdmin"></i>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" name="IsAdmin" class="isadmin form-check-input">
+                                                    <i class="input-helper" name="IsAdmin"></i>
+                                                }
+
+                                            }
+
                                         </label>
                                     </div>
                                 </div>
@@ -101,29 +124,13 @@
                         Address
                     </p>
                     <div class="row">
+                        @Html.HiddenFor(x=>x.AddressId)
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Address 1</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">State</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Address 2</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @*<input type="text" class="form-control">*@
+                                    @Html.TextAreaFor(x => x.Address1, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
@@ -131,7 +138,38 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Postcode</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control number", @maxlength = "10" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Address 2</label>
+                                <div class="col-sm-9">
+                                    @Html.TextAreaFor(x => x.Address2, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">State</label>
+                                <div class="col-sm-9">
+                                    <select id="state" class="form-control" name="state">
+                                        @foreach (var states in Model.State)
+                                        {
+                                            if (states.Id == Model.StateId)
+                                            {
+                                                <option value="@states.Id" selected="selected">@states.State1</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@states.Id">@states.State1</option>
+                                            }
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +179,19 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">City</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    <select class="form-control" id="city" name="city">
+                                        @foreach (var city in Model.Cities)
+                                        {
+                                            if (city.Id == Model.CityId)
+                                            {
+                                                <option value="@city.Id" selected="selected">@city.City1</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@city.Id">@city.City1</option>
+                                            }
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -149,18 +199,25 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Country</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option>America</option>
-                                        <option>Italy</option>
-                                        <option>Russia</option>
-                                        <option>Britain</option>
+                                    <select class="form-control" name="country" id="country">
+                                        @foreach (var cntry in Model.Countries)
+                                        {
+                                            if (cntry.Id == Model.CityId)
+                                            {
+                                                <option value="@cntry.Id" selected="selected">@cntry.Country1</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@cntry.Id">@cntry.Country1</option>
+                                            }
+                                        }
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="text-right">
-                        <button type="submit" class="btn btn-primary mr-2">Add Course</button>
+                        <button type="button" id="save-btn" class="btn btn-primary mr-2">Update Profile</button>
                         <button class="btn btn-light">Cancel</button>
                     </div>
                 </form>
@@ -171,4 +228,77 @@
 
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //called when key is pressed in textbox
+        $(".number").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                return false;
+            }
+        });
+    });
 
+    $("#save-btn").click(function () {
+        var userid = $("#UserId").val();
+        var addressid = $("#AddressId").val();
+        var first = $("#FirstName").val();
+        var last = $("#LastName").val();
+        var gender = $("#gender").val();
+        var Dob = $("#Dob").val();
+        var Mobile = $("#Mobile").val();
+        var isactive = $(".isactive").is(":checked") ? true : false;
+        var isadmin = $(".isadmin").is(":checked") ? true : false;
+        var add1 = $("#Address1").val();
+        var post = $("#PostCode").val();
+        var add2 = $("#Address2").val();
+        var state = $("#state option:selected").val();
+        var city = $("#city option:selected").val();
+        var country = $("#country option:selected").val();
+        if (first == "" || last == "") {
+            alert("Please enter first and last name");
+            return false
+        }
+        else if (Dob == "") {
+            alert("Please select date of birth");
+            return false
+        }
+        else if (Mobile == "") {
+            alert("Please enter the mobile number");
+            return false
+        }
+        else if (add1 == "") {
+            alert("Please enter address1. Its required.");
+            return false
+        }
+        else if (post == "") {
+            alert("Please enter PostCode.");
+            return false
+        }
+        var data = {"UserId":userid,"AddressId":addressid,
+            "FirstName": first, "LastName": last, "Gender": gender, "Dob": Dob, "Mobile": Mobile, "IsActive": isactive, "IsAdmin": isadmin, "Address1": add1,
+            "Address2": add2, "StateId": state, "CityId": city, "CountryId": country, "PostCode": post
+        }
+        $.ajax({
+            type: "Post",
+            url: "/User/UpdateProfile",
+            type: "Post",
+            cache: false,
+            data: data,
+            success: function (result) {
+                debugger;
+                if (result.Success) {
+                    alert(result.Message);
+                }
+                else
+                    alert(result.Message);
+            },
+            error: function (result) {
+                alert(result.Message);
+            }
+        });
+    });
+</script>

@@ -1,23 +1,21 @@
-﻿@model IEnumerable<HotelManagment.Database_Model.Courses>
-
+﻿@model IEnumerable<HotelManagment.Database_Model.HostelRoom>
 @{
-    ViewBag.Title = "AllCourses";
+    ViewBag.Title = "AllRooms";
 }
 
 @* ACCESS LOGS SECTION *@
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body p-0">
-            <p class="card-title">All Courses</p>
+            <p class="card-title">All Rooms</p>
             <div class="text-muted font-weight-light cstm-card-body">
                 <table id="tblhistory" class="datatable table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Name</th>
+                            <th>Room Number</th>
                             <th>Description</th>
-                            <th>Fees</th>
-                            <th>IsActive</th>
+                            <th>Floor</th>
+                            <th>Number of Beds</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -26,11 +24,10 @@
                             {
                                 <tr>
                                     <td>@cors.Id</td>
-                                    <td>@cors.Name</td>
                                     <td>@cors.Description</td>
-                                    <td>@cors.Fees</td>
-                                    <td>@cors.IsActive</td>
-                                    <td><a href="/Course/AddCourse?Id=@cors.Id">Edit</a></td>
+                                    <td>@cors.Floor</td>
+                                    <td>@cors.NoOfBeds</td>
+                                    <td><a href="/Hostel/AddRoom?Id=@cors.Id">Edit</a></td>
                                 </tr>
                             }
                         }

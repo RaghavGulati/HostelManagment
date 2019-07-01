@@ -31,12 +31,12 @@ namespace HotelManagment.Database_Model
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Courses> Courses { get; set; }
         public virtual DbSet<Gender> Genders { get; set; }
-        public virtual DbSet<HostelRoom> HostelRooms { get; set; }
         public virtual DbSet<State> States { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<User_Address> User_Address { get; set; }
         public virtual DbSet<User_Courses> User_Courses { get; set; }
         public virtual DbSet<User_Room_Bed> User_Room_Bed { get; set; }
         public virtual DbSet<User_Rooms> User_Rooms { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<User_Address> User_Address { get; set; }
+        public virtual DbSet<HostelRoom> HostelRooms { get; set; }
     }
 }

@@ -42,7 +42,15 @@ namespace HotelManagment.Controllers
                 }
                 userid = user.Id;
                 helper.ManageLogs(user.Id, "User Login to the account");
-                Session["CurrentUser"] = user;
+
+                UserModel usermodel = new UserModel();
+                usermodel.UserId = user.Id;
+                usermodel.IsAdmin = user.IsAdmin;
+                usermodel.IsActive = user.IsActive;
+                usermodel.Email = user.Email;
+                usermodel.FirstName = user.FirstName;
+                usermodel.LastName = user.LastName;
+                Session["CurrentUser"] = usermodel;
 
                 model.Success = true;
                 model.Message = user.IsAdmin ? "Admin" : "User";

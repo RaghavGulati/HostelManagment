@@ -2039,6 +2039,8 @@
     <Content Include="Views\Course\AddCourse.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\Course\AllCourses.cshtml" />
+    <Content Include="Views\Hostel\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,23 +1,24 @@
-﻿@model IEnumerable<HotelManagment.Database_Model.Courses>
+﻿@model IEnumerable<HotelManagment.Database_Model.User>
 
 @{
-    ViewBag.Title = "AllCourses";
+    ViewBag.Title = "Index";
 }
 
-@* ACCESS LOGS SECTION *@
+
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body p-0">
-            <p class="card-title">All Courses</p>
+            <p class="card-title">All Users</p>
             <div class="text-muted font-weight-light cstm-card-body">
                 <table id="tblhistory" class="datatable table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Description</th>
-                            <th>Fees</th>
-                            <th>IsActive</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Date Of Birth</th>
+                            <th>Gender</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -26,11 +27,12 @@
                             {
                                 <tr>
                                     <td>@cors.Id</td>
-                                    <td>@cors.Name</td>
-                                    <td>@cors.Description</td>
-                                    <td>@cors.Fees</td>
-                                    <td>@cors.IsActive</td>
-                                    <td><a href="/Course/AddCourse?Id=@cors.Id">Edit</a></td>
+                                    <td>@cors.FirstName</td>
+                                    <td>@cors.Email</td>
+                                    <td>@cors.Mobile</td>
+                                    <td>@cors.Dob</td>
+                                    <td>@cors.Gender</td>
+                                    <td><a href="/User/Profile?Id=@cors.Id">Edit</a></td>
                                 </tr>
                             }
                         }
@@ -52,5 +54,3 @@
 
     </script>
 }
-
-

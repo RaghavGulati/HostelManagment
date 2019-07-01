@@ -1,4 +1,4 @@
-﻿
+﻿@model HotelManagment.Database_Model.HostelRoom
 @{
     ViewBag.Title = "AddRoom";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,18 +17,30 @@
                     </p>
                     <div class="row">
                         <div class="col-md-6">
+                            @Html.HiddenFor(x => x.Id)
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">First Name</label>
+                                <label class="col-sm-3 col-form-label">Room Number</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @{
+                                        if (Model.Id == 0)
+                                        {
+                                            @Html.TextBoxFor(x => x.RoomNo, new { @class = "form-control number", @maxlength = "3" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(x => x.RoomNo, new { @readonly = "readonly", @class = "form-control number", @maxlength = "3" })
+                                        }
+                                    }
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Last Name</label>
+                                <label class="col-sm-3 col-form-label">Description</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control">
+                                    @*<input type="text" class="form-control">*@
+                                    @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
@@ -36,123 +48,35 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Gender</label>
+                                <label class="col-sm-3 col-form-label">Floor</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                    </select>
+                                    @Html.TextBoxFor(x => x.Floor, new { @class = "form-control number", @maxlength = "2" })
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Date of Birth</label>
+                                <label class="col-sm-3 col-form-label">No. of Beds</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control" placeholder="dd/mm/yyyy">
+                                    @Html.TextBoxFor(x => x.NoOfBeds, new { @class = "form-control number", @maxlength = "2" })
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Category</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option>Category1</option>
-                                        <option>Category2</option>
-                                        <option>Category3</option>
-                                        <option>Category4</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Membership</label>
-                                <div class="col-sm-4">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios1" value="" checked="">
-                                            Free
-                                            <i class="input-helper"></i>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-5">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios2" value="option2">
-                                            Professional
-                                            <i class="input-helper"></i>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="card-description">
-                        Address
-                    </p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Address 1</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">State</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Address 2</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Postcode</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">City</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Country</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control">
-                                        <option>America</option>
-                                        <option>Italy</option>
-                                        <option>Russia</option>
-                                        <option>Britain</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="text-right">
+                        @{
+                            if (Model.Id > 0)
+                            {
+                                <button type="button" id="save-btn" class="btn btn-primary mr-2">Update Room</button>
+                            }
+                            else
+                            {
+                                <button type="button" id="save-btn" class="btn btn-primary mr-2">Add Room</button>
+                            }
+
+                        }
+
+                        <button class="btn btn-light">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -161,4 +85,55 @@
     </div>
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        //called when key is pressed in textbox
+        $(".number").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                return false;
+            }
+        });
+    });
 
+    $("#save-btn").click(function () {
+        var id = $("#Id").val();
+        var room = $("#RoomNo").val();
+        var desc = $("#Description").val();
+        var floor = $("#Floor").val();
+        var beds = $("#NoOfBeds").val();
+        if (room == "" || room == 0) {
+            alert("Please enter room number.")
+            return false;
+        }
+        else if (floor == "" || floor == 0) {
+            alert("Please enter floor number.")
+            return false;
+        }
+        else if (beds == "" || beds == 0) {
+            alert("Please enter number of beds.")
+            return false;
+        }
+        var data = { "Id": id, "Description": desc, "Floor": floor, "NoOfBeds": beds, "RoomNo": room }
+        $.ajax({
+            type: "Post",
+            url: "/Hostel/SaveRoom",
+            cache: false,
+            data: data,
+            success: function (result) {
+                if (result.success) {
+                    alert(result.Message);
+                }
+                else
+                    alert(result.Message);
+            },
+            error: function (result) {
+
+            }
+        });
+    });
+
+</script>

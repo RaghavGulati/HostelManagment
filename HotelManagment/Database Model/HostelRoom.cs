@@ -22,10 +22,8 @@ namespace HotelManagment.Database_Model
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
         public string Description { get; set; }
         public int Floor { get; set; }
-        public Nullable<decimal> Rating { get; set; }
         public int NoOfBeds { get; set; }
         public int RoomNo { get; set; }
     
