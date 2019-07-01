@@ -30,8 +30,8 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="#"><img src="~/images/SVG/logo.svg" class="mr-2" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini" href="#"><img src="~/images/svg/small-logo.svg" alt="logo" /></a>
+                <a class="navbar-brand brand-logo" href="/admin/index"><img src="~/images/SVG/logo.svg" class="mr-2" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="/admin/index"><img src="~/images/svg/small-logo.svg" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -84,6 +84,19 @@
                             <span class="menu-title">Security</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="ti-palette menu-icon"></i>
+                            <span class="menu-title">Rooms</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="ui-basic" style="">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="/Hostel/AddRoom">Add Room</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="/Hostel/AssignRoom">Assign Rooms</a></li>
+                            </ul>
+                        </div>
+                    </li>
                     @{ if (user.IsAdmin)
                         {
                             <li class="nav-item">
@@ -133,7 +146,34 @@
         <!-- page-body-wrapper ends -->
     </div>
 
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal" data-backdrop="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Modal body..
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <script src="~/content/js/plugins/jquery-1.11.3.min.js"></script>
+    <script src="~/content/js/bootstrap.min.js"></script>
     <script src="~/content/js/popper.min.js"></script>
     <script src="~/content/js/plugins/jquery.dataTables.min.js"></script>
     <script src="~/content/js/plugins/dataTables.bootstrap4.min.js"></script>
@@ -158,13 +198,15 @@
     <script src="~/content/js/jquery-ajax-unobtrusive/package/dist/jquery.unobtrusive-ajax.js"></script>
     <script src="~/content/js/common.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
-    <script src="~/content/js/bootstrap.min.js"></script>
+
     <script>
         $('.datepicker').datepicker({
             dateFormat: ''
         });
+        $(document).ready(function () {
+            $('#myModal').modal('show');
+        });
     </script>
-
 
 
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>

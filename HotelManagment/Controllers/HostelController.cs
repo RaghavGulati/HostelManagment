@@ -86,5 +86,9 @@ namespace HotelManagment.Controllers
             
         }
 
+        public ActionResult AssignRoom()
+        {
+            return View();
+        }
     }
 }
