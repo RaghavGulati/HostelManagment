@@ -17,7 +17,14 @@ namespace HotelManagment.Controllers
         // GET: Login
         public ActionResult Index()
         {
+            Session["CurrentUser"] = null;
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Session["CurrentUser"] = null;
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
@@ -50,6 +57,7 @@ namespace HotelManagment.Controllers
                 usermodel.Email = user.Email;
                 usermodel.FirstName = user.FirstName;
                 usermodel.LastName = user.LastName;
+                usermodel.IsProfileCompleted = user.IsProfileCompleted;
                 Session["CurrentUser"] = usermodel;
 
                 model.Success = true;
@@ -87,6 +95,8 @@ namespace HotelManagment.Controllers
                 user.IsProfileCompleted = false;
                 user.CreatedOn = DateTime.Now;
                 user.IsActive = false;
+                user.RoomAssigned = false;
+                user.RoomRequested = false;
                 entity.Users.Add(user);
                 entity.SaveChanges();
                 helper.ManageLogs(user.Id, "New User Created");
@@ -106,15 +116,28 @@ namespace HotelManagment.Controllers
         [HttpPost]
         public ActionResult UpdatePassword(string email, string newPassword)
         {
-            var user = FindUser(email);
-            user.Password = helper.Encode(newPassword);
-            entity.SaveChanges();
-            helper.ManageLogs(user.Id, "Password updated by user.");
-            return View();
+            AjaxModel result = new AjaxModel();
+            try
+            {
+                var user = FindUser(email);
+                user.Password = helper.Encode(newPassword);
+                entity.SaveChanges();
+                helper.ManageLogs(user.Id, "Password updated by user.");
+                result.Success = true;
+                result.Message = "Password update successfully.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+           
         }
 
         [HttpPost]
-        public JsonResult ResetPasswords(string email)
+        public JsonResult ResetPasswords(string email,string mobile)
         {
             AjaxModel result = new AjaxModel();
             int userid = 0;
@@ -127,14 +150,33 @@ namespace HotelManagment.Controllers
                     result.Message = "Email doesn't exist..";
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
-                userid = user.Id;
-                Random random = new Random();
-                int value = random.Next(10000);
-                user.RecoveryPassword = value;
-                entity.SaveChanges();
-                helper.ManageLogs(user.Id, "Password reset code genrated by user.");
-                result.Success = true;
-                result.Message = "Password recovery code has been send to your email. Please enter the code.";
+                else if (string.IsNullOrEmpty(user.Mobile))
+                {
+                    result.Success = false;
+                    result.Message = "you have not entered your mobile number in your profile. Please email us at Ermandeepkaur12@gmail.com ";
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+                else if(user.Mobile != mobile)
+                {
+                    result.Success = false;
+                    result.Message = "Mobile number is incorrect.";
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+                else if(user.Mobile == mobile)
+                {
+                    helper.ManageLogs(user.Id, "Password reset process started.");
+                    result.Success = true;
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+
+                //userid = user.Id;
+                //Random random = new Random();
+                //int value = random.Next(10000);
+                //user.RecoveryPassword = value;
+                //entity.SaveChanges();
+                
+                result.Success = false;
+                result.Message = "Internal server error..";
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

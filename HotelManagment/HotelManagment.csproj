@@ -2041,7 +2041,8 @@
     <Content Include="Views\Course\AllCourses.cshtml" />
     <Content Include="Views\Hostel\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-	<Content Include="Views\Hostel\AssignRoom.cshtml" />
+    <Content Include="Views\Hostel\AssignRoom.cshtml" />
+    <Content Include="Views\Hostel\RoomsRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

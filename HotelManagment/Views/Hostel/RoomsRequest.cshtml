@@ -1,22 +1,22 @@
-﻿@model IEnumerable<HotelManagment.Database_Model.HostelRoom>
+﻿@model IEnumerable<HotelManagment.Database_Model.User>
+
 @{
-    ViewBag.Title = "AllRooms";
+    ViewBag.Title = "RoomsRequest";
 }
 
 @* ACCESS LOGS SECTION *@
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body p-0">
-            <p class="card-title">All Rooms</p>
+            <p class="card-title">Room Request</p>
             <div class="text-muted font-weight-light cstm-card-body">
                 <table id="tblhistory" class="datatable table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Room Number</th>
-                            <th>Description</th>
-                            <th>Floor</th>
-                            <th>Number of Beds</th>
-                            <th>Room Charges</th>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -25,11 +25,10 @@
                             {
                                 <tr>
                                     <td>@cors.Id</td>
-                                    <td>@cors.Description</td>
-                                    <td>@cors.Floor</td>
-                                    <td>@cors.NoOfBeds</td>
-                                    <td>@cors.RoomChangres</td>
-                                    <td><a href="/Hostel/AddRoom?Id=@cors.Id">Edit</a></td>
+                                    <td>@cors.FirstName @cors.LastName</td>
+                                    <td>@cors.Email</td>
+                                    <td>@cors.Mobile</td>
+                                    <td><a href="/Hostel/AssignRoom?Id=@cors.Id">Assign Room</a></td>
                                 </tr>
                             }
                         }
@@ -51,5 +50,3 @@
 
     </script>
 }
-
-

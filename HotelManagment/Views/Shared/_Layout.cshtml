@@ -25,7 +25,37 @@
     </style>
 </head>
 <body>
-    @{ var user = (UserModel)Session["CurrentUser"];}
+    @{ var user = (UserModel)Session["CurrentUser"];
+        string path = HttpContext.Current.Request.Url.AbsolutePath;
+        if ((user.IsProfileCompleted == null || user.IsProfileCompleted == false) && !path.Contains("User/Profile") )
+        {
+            <div class="modal" id="myModal" data-backdrop="false" style="display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Profile InComplete</h4>
+                            @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            Your Profile is not completed yet. Please Complete it first.
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            @*<button type="button" class="btn btn-danger" data-dismiss="modal"></button>*@
+                            <a href="/User/Profile" class="btn btn-danger">My Profile</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        }
+    }
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -128,7 +158,13 @@
                             </li>
                         }
 
-                    }                    
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Login/Logout">
+                            <i class="ti-shield menu-icon"></i>
+                            <span class="menu-title">Logout</span>
+                        </a>
+                    </li>                    
                 </ul>
             </nav>
             <!-- partial -->
@@ -148,30 +184,8 @@
 
 
     <!-- The Modal -->
-    <div class="modal" id="myModal" data-backdrop="false">
-        <div class="modal-dialog">
-            <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Modal body..
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
+    
     <script src="~/content/js/plugins/jquery-1.11.3.min.js"></script>
     <script src="~/content/js/bootstrap.min.js"></script>
     <script src="~/content/js/popper.min.js"></script>
@@ -203,9 +217,9 @@
         $('.datepicker').datepicker({
             dateFormat: ''
         });
-        $(document).ready(function () {
-            $('#myModal').modal('show');
-        });
+        //$(document).ready(function () {
+        //    $('#myModal').modal('show');
+        //});
     </script>
 
 

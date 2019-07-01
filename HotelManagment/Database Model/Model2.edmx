@@ -64,6 +64,8 @@
           <Property Name="Floor" Type="int" Nullable="false" />
           <Property Name="NoOfBeds" Type="int" Nullable="false" />
           <Property Name="RoomNo" Type="int" Nullable="false" />
+          <Property Name="RoomChangres" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="VacantRooms" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -90,6 +92,8 @@
           <Property Name="IsProfileCompleted" Type="bit" />
           <Property Name="RecoveryPassword" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="RoomRequested" Type="bit" />
+          <Property Name="RoomAssigned" Type="bit" />
         </EntityType>
         <EntityType Name="User_Address">
           <Key>
@@ -460,8 +464,8 @@
           <Property Name="RoomId" Type="Int32" Nullable="false" />
           <Property Name="BedId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Bed" Relationship="Self.FK_User_Room_Bed_HostelRooms" FromRole="User_Room_Bed" ToRole="Beds" />
-          <NavigationProperty Name="User" Relationship="HostelManagmentModel.FK_User_Room_Bed_Users" FromRole="User_Room_Bed" ToRole="User" />
           <NavigationProperty Name="HostelRoom" Relationship="HostelManagmentModel.FK_User_Room_Bed_User_Room_Bed" FromRole="User_Room_Bed" ToRole="HostelRoom" />
+          <NavigationProperty Name="User" Relationship="HostelManagmentModel.FK_User_Room_Bed_Users" FromRole="User_Room_Bed" ToRole="User" />
         </EntityType>
         <EntityType Name="User_Rooms">
           <Key>
@@ -470,8 +474,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="RoomId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="HostelManagmentModel.FK_User_Rooms_Users" FromRole="User_Rooms" ToRole="User" />
           <NavigationProperty Name="HostelRoom" Relationship="HostelManagmentModel.FK_User_Rooms_HostelRooms" FromRole="User_Rooms" ToRole="HostelRoom" />
+          <NavigationProperty Name="User" Relationship="HostelManagmentModel.FK_User_Rooms_Users" FromRole="User_Rooms" ToRole="User" />
         </EntityType>
         <Association Name="FK_User_Room_Bed_HostelRooms">
           <End Role="Beds" Type="Self.Bed" Multiplicity="1" />
@@ -548,23 +552,6 @@
             <End Role="Courses" EntitySet="Courses" />
             <End Role="User_Courses" EntitySet="User_Courses" />
           </AssociationSet>
-          <EntitySet Name="Users" EntityType="HostelManagmentModel.User" />
-          <AssociationSet Name="FK_AccessLog_Users" Association="HostelManagmentModel.FK_AccessLog_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="AccessLog" EntitySet="AccessLogs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Courses_Users" Association="HostelManagmentModel.FK_User_Courses_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="User_Courses" EntitySet="User_Courses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Room_Bed_Users" Association="HostelManagmentModel.FK_User_Room_Bed_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="User_Room_Bed" EntitySet="User_Room_Bed" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Rooms_Users" Association="HostelManagmentModel.FK_User_Rooms_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="User_Rooms" EntitySet="User_Rooms" />
-          </AssociationSet>
           <EntitySet Name="User_Address" EntityType="HostelManagmentModel.User_Address" />
           <AssociationSet Name="FK__User_Addr__CityI__66603565" Association="HostelManagmentModel.FK__User_Addr__CityI__66603565">
             <End Role="City" EntitySet="Cities" />
@@ -578,10 +565,6 @@
             <End Role="State" EntitySet="States" />
             <End Role="User_Address" EntitySet="User_Address" />
           </AssociationSet>
-          <AssociationSet Name="FK_User_Address_Users" Association="HostelManagmentModel.FK_User_Address_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="User_Address" EntitySet="User_Address" />
-          </AssociationSet>
           <EntitySet Name="HostelRooms" EntityType="HostelManagmentModel.HostelRoom" />
           <AssociationSet Name="FK_User_Room_Bed_User_Room_Bed" Association="HostelManagmentModel.FK_User_Room_Bed_User_Room_Bed">
             <End Role="HostelRoom" EntitySet="HostelRooms" />
@@ -591,78 +574,28 @@
             <End Role="HostelRoom" EntitySet="HostelRooms" />
             <End Role="User_Rooms" EntitySet="User_Rooms" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="HostelManagmentModel.User" />
+          <AssociationSet Name="FK_AccessLog_Users" Association="HostelManagmentModel.FK_AccessLog_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="AccessLog" EntitySet="AccessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Address_Users" Association="HostelManagmentModel.FK_User_Address_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="User_Address" EntitySet="User_Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Courses_Users" Association="HostelManagmentModel.FK_User_Courses_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="User_Courses" EntitySet="User_Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Room_Bed_Users" Association="HostelManagmentModel.FK_User_Room_Bed_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="User_Room_Bed" EntitySet="User_Room_Bed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Rooms_Users" Association="HostelManagmentModel.FK_User_Rooms_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="User_Rooms" EntitySet="User_Rooms" />
+          </AssociationSet>
           </EntityContainer>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Mobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="Dob" Type="DateTime" Precision="3" />
-          <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="IsProfileCompleted" Type="Boolean" />
-          <Property Name="RecoveryPassword" Type="Int32" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="AccessLogs" Relationship="HostelManagmentModel.FK_AccessLog_Users" FromRole="User" ToRole="AccessLog" />
-          <NavigationProperty Name="User_Courses" Relationship="HostelManagmentModel.FK_User_Courses_Users" FromRole="User" ToRole="User_Courses" />
-          <NavigationProperty Name="User_Room_Bed" Relationship="HostelManagmentModel.FK_User_Room_Bed_Users" FromRole="User" ToRole="User_Room_Bed" />
-          <NavigationProperty Name="User_Rooms" Relationship="HostelManagmentModel.FK_User_Rooms_Users" FromRole="User" ToRole="User_Rooms" />
-          <NavigationProperty Name="User_Address" Relationship="HostelManagmentModel.FK_User_Address_Users" FromRole="User" ToRole="User_Address" />
-        </EntityType>
-        <Association Name="FK_AccessLog_Users">
-          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
-          <End Type="HostelManagmentModel.AccessLog" Role="AccessLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AccessLog">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_Courses_Users">
-          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
-          <End Type="HostelManagmentModel.User_Courses" Role="User_Courses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="User_Courses">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_Room_Bed_Users">
-          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
-          <End Type="HostelManagmentModel.User_Room_Bed" Role="User_Room_Bed" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="User_Room_Bed">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_Rooms_Users">
-          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
-          <End Type="HostelManagmentModel.User_Rooms" Role="User_Rooms" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="User_Rooms">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="User_Address">
           <Key>
             <PropertyRef Name="Id" />
@@ -717,18 +650,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_User_Address_Users">
-          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
-          <End Type="HostelManagmentModel.User_Address" Role="User_Address" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="User_Address">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="HostelRoom">
           <Key>
             <PropertyRef Name="Id" />
@@ -738,6 +659,8 @@
           <Property Name="Floor" Type="Int32" Nullable="false" />
           <Property Name="NoOfBeds" Type="Int32" Nullable="false" />
           <Property Name="RoomNo" Type="Int32" Nullable="false" />
+          <Property Name="RoomChangres" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="VacantRooms" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User_Room_Bed" Relationship="HostelManagmentModel.FK_User_Room_Bed_User_Room_Bed" FromRole="HostelRoom" ToRole="User_Room_Bed" />
           <NavigationProperty Name="User_Rooms" Relationship="HostelManagmentModel.FK_User_Rooms_HostelRooms" FromRole="HostelRoom" ToRole="User_Rooms" />
         </EntityType>
@@ -762,6 +685,91 @@
             </Principal>
             <Dependent Role="User_Rooms">
               <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Dob" Type="DateTime" Precision="3" />
+          <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IsProfileCompleted" Type="Boolean" />
+          <Property Name="RecoveryPassword" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="RoomRequested" Type="Boolean" />
+          <Property Name="RoomAssigned" Type="Boolean" />
+          <NavigationProperty Name="AccessLogs" Relationship="HostelManagmentModel.FK_AccessLog_Users" FromRole="User" ToRole="AccessLog" />
+          <NavigationProperty Name="User_Address" Relationship="HostelManagmentModel.FK_User_Address_Users" FromRole="User" ToRole="User_Address" />
+          <NavigationProperty Name="User_Courses" Relationship="HostelManagmentModel.FK_User_Courses_Users" FromRole="User" ToRole="User_Courses" />
+          <NavigationProperty Name="User_Room_Bed" Relationship="HostelManagmentModel.FK_User_Room_Bed_Users" FromRole="User" ToRole="User_Room_Bed" />
+          <NavigationProperty Name="User_Rooms" Relationship="HostelManagmentModel.FK_User_Rooms_Users" FromRole="User" ToRole="User_Rooms" />
+        </EntityType>
+        <Association Name="FK_AccessLog_Users">
+          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
+          <End Type="HostelManagmentModel.AccessLog" Role="AccessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccessLog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Address_Users">
+          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
+          <End Type="HostelManagmentModel.User_Address" Role="User_Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User_Address">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Courses_Users">
+          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
+          <End Type="HostelManagmentModel.User_Courses" Role="User_Courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User_Courses">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Room_Bed_Users">
+          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
+          <End Type="HostelManagmentModel.User_Room_Bed" Role="User_Room_Bed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User_Room_Bed">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Rooms_Users">
+          <End Type="HostelManagmentModel.User" Role="User" Multiplicity="1" />
+          <End Type="HostelManagmentModel.User_Rooms" Role="User_Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User_Rooms">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -864,25 +872,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="HostelManagmentModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="RecoveryPassword" ColumnName="RecoveryPassword" />
-                <ScalarProperty Name="IsProfileCompleted" ColumnName="IsProfileCompleted" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Dob" ColumnName="Dob" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="User_Address">
             <EntityTypeMapping TypeName="HostelManagmentModel.User_Address">
               <MappingFragment StoreEntitySet="User_Address">
@@ -901,10 +890,33 @@
           <EntitySetMapping Name="HostelRooms">
             <EntityTypeMapping TypeName="HostelManagmentModel.HostelRoom">
               <MappingFragment StoreEntitySet="HostelRooms">
+                <ScalarProperty Name="VacantRooms" ColumnName="VacantRooms" />
+                <ScalarProperty Name="RoomChangres" ColumnName="RoomChangres" />
                 <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
                 <ScalarProperty Name="NoOfBeds" ColumnName="NoOfBeds" />
                 <ScalarProperty Name="Floor" ColumnName="Floor" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="HostelManagmentModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="RoomAssigned" ColumnName="RoomAssigned" />
+                <ScalarProperty Name="RoomRequested" ColumnName="RoomRequested" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="RecoveryPassword" ColumnName="RecoveryPassword" />
+                <ScalarProperty Name="IsProfileCompleted" ColumnName="IsProfileCompleted" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

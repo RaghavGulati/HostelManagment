@@ -15,6 +15,7 @@ namespace HotelManagment.Models.User
         public string Email { get; set; }
         public string Password { get; set; }
         public string Mobile { get; set; }
+        public bool? IsProfileCompleted { get; set; }
         public bool IsActive { get; set; }
          public DateTime Dob { get; set; }
         public string Gender { get; set; }        

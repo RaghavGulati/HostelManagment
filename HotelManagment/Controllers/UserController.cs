@@ -90,8 +90,10 @@ namespace HotelManagment.Controllers
                 user.IsAdmin = model.IsAdmin;
                 user.Mobile = model.Mobile;
                 user.Dob = model.Dob;
-                user.IsProfileCompleted = model.AddressId == 0 ? true : user.IsProfileCompleted;
+                user.IsProfileCompleted = true;//model.AddressId == 0 ? true : user.IsProfileCompleted;
                 user.Gender = model.Gender;
+                model.IsProfileCompleted = true;
+                Session["CurrentUser"] = model; 
                 User_Address address = new User_Address();
                 if (model.AddressId > 0)
                 {

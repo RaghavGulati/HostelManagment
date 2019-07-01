@@ -22,7 +22,7 @@ namespace HotelManagment.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var courses = (from cors in entity.Courses select cors).ToList();
+            var courses = (from cors in entity.Courses orderby cors.Id descending select cors).ToList();
             return View(courses);
         }
         

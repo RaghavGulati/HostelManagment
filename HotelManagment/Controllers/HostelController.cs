@@ -22,7 +22,7 @@ namespace HotelManagment.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var rooms = (from room in entity.HostelRooms select room).ToList();
+            var rooms = (from room in entity.HostelRooms orderby room.Id descending select room).ToList();
 
             return View(rooms);
         }
@@ -67,11 +67,11 @@ namespace HotelManagment.Controllers
                 result.Message = model.Id == 0 ? "New Room Added Succesfully." : "Room Updated Successfully.";
                 if (model.Id == 0)
                 {
-                    helper.ManageLogs(session.UserId, "New Course added by " + session.FirstName + " " + session.LastName);
+                    helper.ManageLogs(session.UserId, "New room added by " + session.FirstName + " " + session.LastName);
                 }
                 else
                 {
-                    helper.ManageLogs(session.UserId, "Course updated added by " + session.FirstName + " " + session.LastName);
+                    helper.ManageLogs(session.UserId, "Room Number "+model.RoomNo+" updated by " + session.FirstName + " " + session.LastName);
                 }
                 entity.HostelRooms.Add(model);
                 entity.SaveChanges();
@@ -83,12 +83,19 @@ namespace HotelManagment.Controllers
                 result.Message = ex.Message;
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-            
         }
 
-        public ActionResult AssignRoom()
+        public  ActionResult RoomsRequest()
         {
-            return View();
+            var user = (from usr in entity.Users where usr.RoomRequested == true select usr).ToList();
+            return View(user);
+        }
+
+
+        public ActionResult AssignRoom(int userId)
+        {
+            var user = (from usr in entity.Users where usr.Id == userId select usr).FirstOrDefault();
+            return View(user);
         }
     }
 }

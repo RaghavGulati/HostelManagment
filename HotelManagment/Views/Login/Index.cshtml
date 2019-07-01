@@ -40,9 +40,26 @@
                 <div class="form-group">
                     <input type="text" id="forgot_email" value="" class="form-control" placeholder="Enter email...." />
                 </div>
+                <div class="form-group">
+                    <input type="text" id="forgot_mobile" value="" class="form-control" placeholder="Enter mobile number...." />
+                </div>
                 <div class="form-group forgot-btn-block">
-                    <input type="button" value="cancel" class="btn btn-cacel" />
+                    <input type="button" value="cancel" class="btn btn-cacel cancel" />
                     <input type="button" id="forget_btn" value="Continue" class="btn btn-default" />
+                </div>
+            </div>
+
+            <div class="reset-pass-div" style="display: none;">
+                <input type="hidden" id="reset-email" />
+                <div class="form-group">
+                    <input type="password" id="reset-new-pass" value="" class="form-control" placeholder="Enter new password...." />
+                </div>
+                <div class="form-group">
+                    <input type="password" id="reset-cnfrm-pass" value="" class="form-control" placeholder="Confirm Password...." />
+                </div>
+                <div class="form-group forgot-btn-block">
+                    <input type="button" value="cancel" class="btn btn-cacel cancel" />
+                    <input type="button" id="reset_btn-mobile" value="Continue" class="btn btn-default" />
                 </div>
             </div>
             <div id="formFooter">
@@ -165,9 +182,29 @@
         $('.signin').show();
     });
 
+    $(".cancel").click(function () {
+        $("#forgot_email").val("");
+        $("#forgot_mobile").val("");
+        $("#reset-email").val("");
+        $("#reset-new-pass").val("");
+        $("#reset-cnfrm-pass").val("");
+        $(".forgot").hide();
+        $(".reset-pass-div").hide();
+        $("#signin").click();
+    });
+
     $("#forget_btn").click(function () {
         var email = $("#forgot_email").val();
-        var data = { 'email': email }
+        var mobile = $("#forgot_mobile").val();
+        if (email == "") {
+            alert("Please enter email.")
+            return false;
+        } else if (mobile == "") {
+            alert("Please enter mobile number .")
+            return false;
+        }
+
+        var data = { 'email': email,"mobile": mobile}
         $.ajax({
             type: "Post",
             url: "/Login/ResetPasswords",
@@ -177,7 +214,46 @@
             success: function (result) {
                 if (result.Success) {
                     debugger;
+                    $(".forgot").hide();
+                    $("#reset-email").val(email);
+                    $(".reset-pass-div").show();
+                }
+                else
                     alert(result.Message);
+            },
+            error: function (result) {
+                alert(result.Message);
+            }
+        });
+    });
+
+    $("#reset_btn-mobile").click(function () {
+        var email = $("#reset-email").val();
+        var newpass = $("#reset-new-pass").val();
+        var cnfrmpass = $("#reset-cnfrm-pass").val();
+        if (newpass == "") {
+            alert("Please enter new password.");
+            return false;
+        } else if (cnfrmpass == "") {
+            alert("Please enter confirm password.");
+            return false;
+        } else if (newpass != cnfrmpass) {
+            alert("New password and confirm password value mismatch.");
+            return false;
+        }
+        var data = { "email": email, "newPassword": newpass };
+        $.ajax({
+            type: "Post",
+            url: "/Login/UpdatePassword",
+            type: "Post",
+            cache: false,
+            data: data,
+            success: function (result) {
+                if (result.Success) {
+                    debugger;
+                    alert(result.Message);
+                    $(".reset-pass-div").hide();
+                    $(".login").show();
                 }
                 else
                     alert(result.Message);
