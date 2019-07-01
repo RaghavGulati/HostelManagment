@@ -182,12 +182,41 @@
         <!-- page-body-wrapper ends -->
     </div>
 
+    <div class="col-md-12 loader" style="height: 100vh; width: 100vw; background-color: #fff; position: fixed;">
+        <div class="centered">
+            <div class="boxes">
+                <div class="box">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="box">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="box">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="box">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- The Modal -->
 
     
     <script src="~/content/js/plugins/jquery-1.11.3.min.js"></script>
-    <script src="~/content/js/bootstrap.min.js"></script>
     <script src="~/content/js/popper.min.js"></script>
     <script src="~/content/js/plugins/jquery.dataTables.min.js"></script>
     <script src="~/content/js/plugins/dataTables.bootstrap4.min.js"></script>
@@ -217,9 +246,20 @@
         $('.datepicker').datepicker({
             dateFormat: ''
         });
-        //$(document).ready(function () {
-        //    $('#myModal').modal('show');
-        //});
+        $(document).ready(function () {
+            $('#myModal').modal('show');
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.loader').hide();
+            $('#tblhistory').DataTable();
+        });
+        $('.show-loader').click(function () {
+            $('.loader').show();
+        });
+
     </script>
 
 
