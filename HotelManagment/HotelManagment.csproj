@@ -1763,6 +1763,7 @@
     <Content Include="Content\images\checkbox.png" />
     <Content Include="Content\images\checked.png" />
     <Content Include="Content\images\fav.png" />
+    <Content Include="Content\images\hostel-bg.jpg" />
     <Content Include="Content\images\login-bg-11.jpg" />
     <Content Include="Content\images\login-bg.jpg" />
     <Content Include="Content\images\logo.png" />
