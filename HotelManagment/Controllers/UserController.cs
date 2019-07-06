@@ -14,6 +14,17 @@ namespace HotelManagment.Controllers
     {
         HostelManagmentEntities entity = new HostelManagmentEntities();
         Common helper = new Common();
+
+        public ActionResult Dashboard()
+        {
+            UserModel session = (UserModel)Session["CurrentUser"];
+            if (session == null)
+                return RedirectToAction("Index", "Login");
+
+            var logs = (from log in entity.AccessLogs where log.UserId == session.UserId orderby log.Id descending select log).ToList();
+            return View(logs);
+        }
+
         // GET: User
         public ActionResult Index()
         {
@@ -30,33 +41,37 @@ namespace HotelManagment.Controllers
         {
             var sessionUser = CheckUserSession();
             if (sessionUser == null)
-                return RedirectToRoute("default");
+                return RedirectToAction("Index", "Login");
 
             UserModel model = new UserModel();
             User user = new User();
-            if(Id==null || Id==0){
-                user = (from usr in entity.Users where usr.Id == sessionUser.UserId select usr).FirstOrDefault();
-            }
-            else
+            if (Id == null || Id == 0)
             {
-                user = (from usr in entity.Users where usr.Id == Id select usr).FirstOrDefault();
+                user = helper.FindUserById(sessionUser.UserId);//(from usr in entity.Users where usr.Id == sessionUser.UserId select usr).FirstOrDefault();
             }
-            
+            else if (Id > 0 && sessionUser.IsAdmin)
+            {
+                user = helper.FindUserById(Convert.ToInt16(Id));//(from usr in entity.Users where usr.Id == Id select usr).FirstOrDefault();
+            }
+            else if(Id > 0 && !sessionUser.IsAdmin)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            model = helper.Mapper(user);
             model.Countries = (from cntry in entity.Countries select cntry).ToList();
             model.State = (from state in entity.States select state).ToList();
             model.Cities = (from city in entity.Cities select city).ToList();
-            
-            model.UserId = user.Id;
-            model.FirstName = user.FirstName;
-            model.LastName = user.LastName;
-            model.Email = user.Email;
-            model.IsActive = user.IsActive;
-            model.IsAdmin = user.IsAdmin;
-            model.Mobile = user.Mobile;
-            model.Dob = Convert.ToDateTime(user.Dob);
-            model.Gender = user.Gender;
+            //model.UserId = user.Id;
+            //model.FirstName = user.FirstName;
+            //model.LastName = user.LastName;
+            //model.Email = user.Email;
+            //model.IsActive = user.IsActive;
+            //model.IsAdmin = user.IsAdmin;
+            //model.Mobile = user.Mobile;
+            //model.Dob = user.Dob != null ? (Convert.ToDateTime(user.Dob)).ToString("dd/MM/yyyy") : string.Empty;
+            //model.Gender = user.Gender;
             var address = (from add in entity.User_Address where add.UserId == model.UserId || add.IsPrimary == true select add).FirstOrDefault(); //user.User_Address.Where(x => x.IsPrimary == true).FirstOrDefault();
-            if(address != null)
+            if (address != null)
             {
                 model.AddressId = address.Id;
                 model.Address1 = address.Address1;
@@ -70,14 +85,62 @@ namespace HotelManagment.Controllers
             return View(model);
         }
 
+        public ActionResult AddUser()
+        {
+            var sessionUser = CheckUserSession();
+            if (sessionUser == null || !sessionUser.IsAdmin)
+                return RedirectToAction("Index", "Login");
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult CreateUser(string email, string name, string password, string mobile, bool IsActive, bool IsAdmin)
+        {
+            AjaxModel model = new AjaxModel();
+            try
+            {
+                UserModel session = (UserModel)Session["CurrentUser"];
+                var existuser = helper.FindUserByEmail(email);
+                if (existuser != null)
+                {
+                    model.Success = false;
+                    model.Message = "Email already exist in database.";
+                    return Json(model, JsonRequestBehavior.AllowGet);
+                }
+                User user = new User();
+                user.FirstName = name;
+                user.IsAdmin = false;
+                user.Password = helper.Encode(password);
+                user.Email = email;
+                user.IsProfileCompleted = false;
+                user.CreatedOn = DateTime.Now;
+                user.IsActive = IsActive;
+                user.IsAdmin = IsAdmin;
+                user.Mobile = mobile;
+                entity.Users.Add(user);
+                entity.SaveChanges();
+                helper.ManageLogs(session.UserId, "New User Created by " + session.FirstName + " " + session.LastName);
+                model.Success = true;
+                model.Message = "New user has been created successfull.";
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                model.Success = false;
+                model.Message = ex.Message;
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public JsonResult UpdateProfile(UserModel model)
         {
             AjaxModel result = new AjaxModel();
             try
             {
-                var user = (from usr in entity.Users where usr.Id == model.UserId select usr).FirstOrDefault();
-                if(user== null)
+                var user = helper.FindUserById(model.UserId);
+                if (user == null)
                 {
                     result.Success = false;
                     result.Message = "User account not found. Please contact administrator.";
@@ -86,20 +149,20 @@ namespace HotelManagment.Controllers
 
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
-                user.IsActive = model.IsActive;
-                user.IsAdmin = model.IsAdmin;
+                user.IsActive = user.IsAdmin ? model.IsActive : user.IsActive;
+                user.IsAdmin = user.IsAdmin ? model.IsAdmin : user.IsAdmin;
                 user.Mobile = model.Mobile;
-                user.Dob = model.Dob;
+                user.Dob = Convert.ToDateTime(model.Dob);
                 user.IsProfileCompleted = true;//model.AddressId == 0 ? true : user.IsProfileCompleted;
                 user.Gender = model.Gender;
                 model.IsProfileCompleted = true;
-                Session["CurrentUser"] = model; 
+                Session["CurrentUser"] = model;
                 User_Address address = new User_Address();
                 if (model.AddressId > 0)
                 {
                     address = (from add in entity.User_Address where add.Id == model.AddressId select add).FirstOrDefault();
                 }
-                address.IsPrimary = model.AddressId == 0 ? true : model.IsPrimary;
+                address.IsPrimary = model.AddressId == 0 ? true : address.IsPrimary;
                 address.PostCode = model.PostCode;
                 address.Address1 = model.Address1;
                 address.UserId = model.UserId;
@@ -107,6 +170,7 @@ namespace HotelManagment.Controllers
                 address.CityId = model.CityId;
                 address.StateId = model.StateId;
                 address.CountryId = model.CountryId;
+
                 if (model.AddressId == 0)
                 {
                     entity.User_Address.Add(address);
@@ -123,42 +187,131 @@ namespace HotelManagment.Controllers
                 result.Message = ex.Message;
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-          
+
         }
-        
+
+        public ActionResult HostelBooking()
+        {
+            var sessionuser = CheckUserSession();
+            if (sessionuser == null)
+                return RedirectToAction("Index", "Login");
+
+            UserModel usermodel = new UserModel();
+            var roomreq = (from req in entity.User_RoomRequest where req.UserId == sessionuser.UserId orderby req.Id descending select req).FirstOrDefault();
+            if (roomreq != null)
+            {
+                usermodel.IsRoomRequested = true;
+                usermodel.CancelRequest = roomreq.CancelRequest;
+                usermodel.RooomAssigned = roomreq.IsRoomAssigned;
+                usermodel.CancelMessage = roomreq.Message;
+            }
+            else
+            {
+                var user = helper.FindUserById(sessionuser.UserId);
+                usermodel = helper.Mapper(user);
+                usermodel.Countries = (from cntry in entity.Countries select cntry).ToList();
+                usermodel.State = (from state in entity.States select state).ToList();
+                usermodel.Cities = (from city in entity.Cities select city).ToList();
+                usermodel.AllCourses = (from cors in entity.Courses where cors.IsActive == true select cors).ToList();
+                var address = (from add in entity.User_Address where add.UserId == user.Id && add.IsPrimary == false select add).FirstOrDefault(); //user.User_Address.Where(x => x.IsPrimary == true).FirstOrDefault();
+                if (address != null)
+                {
+                    usermodel.AddressId = address.Id;
+                    usermodel.Address1 = address.Address1;
+                    usermodel.Address2 = address.Address2;
+                    usermodel.PostCode = address.PostCode;
+                    usermodel.CityId = address.CityId;
+                    usermodel.StateId = address.StateId;
+                    usermodel.CountryId = address.CountryId;
+                    usermodel.IsPrimary = address.IsPrimary;
+                }
+            }
+            return View(usermodel);
+        }
+
+        [HttpPost]
+        public JsonResult SaveHostelRequest(int userId, int courseId, int budget, string checkin, int addressid, string address1, string address2, string guardianmobile, int city, int state, int country, string postcode)
+        {
+            AjaxModel result = new AjaxModel();
+            try
+            {
+                User_RoomRequest roomrequest = new User_RoomRequest();
+                roomrequest.UserId = userId;
+                roomrequest.Budegt = budget;
+                roomrequest.IsRoomAssigned = false;
+                roomrequest.CancelRequest = false;
+                roomrequest.Message = string.Empty;
+                roomrequest.CheckIn = Convert.ToDateTime(checkin);
+                entity.User_RoomRequest.Add(roomrequest);
+
+                User_Courses usercourse = new User_Courses();
+                usercourse.CourseId = courseId;
+                usercourse.UserId = userId;
+                entity.User_Courses.Add(usercourse);
+
+                if (addressid == 0)
+                {
+                    User_Address address = new User_Address();
+                    address.IsPrimary = false;
+                    address.PostCode = postcode.ToString();
+                    address.Address1 = address1;
+                    address.UserId = userId;
+                    address.Address2 = address2;
+                    address.CityId = city;
+                    address.StateId = state;
+                    address.CountryId = country;
+                    address.Mobile = guardianmobile;
+                    entity.User_Address.Add(address);
+                }
+                helper.ManageLogs(userId, "User has requested for room booking in hostel.");
+                entity.SaveChanges();
+                result.Success = true;
+                result.Message = "Your hostel room request has been submitted. Please wait for further response.";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         public ActionResult ChangePassword()
         {
+            var user = CheckUserSession();
+            if (user == null)
+                return RedirectToAction("Index", "Login");
+
+            TempData["UserId"] = user.UserId.ToString();
             return View();
         }
 
         [HttpPost]
-        public ActionResult UpdatePassword(string old,string newpass)
+        public ActionResult UpdatePassword(string Id, string old, string newpass)
         {
             AjaxModel result = new AjaxModel();
             int userid = 0;
             try
             {
-                var user = CheckUserSession();
-                if(user==null)
-                    return RedirectToRoute("default");
-
-                userid = user.UserId;
+                userid = Convert.ToInt16(Id);
+                var user = helper.FindUserById(userid);
+                userid = user.Id;
                 if (helper.Decode(user.Password) != old)
                 {
-                    helper.ManageLogs(user.UserId, "old password mismatch while updating it with new password..");
+                    helper.ManageLogs(user.Id, "old password mismatch while updating it with new password..");
                     result.Success = false;
                     result.Message = "Old Password is not correct";
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
                 user.Password = helper.Encode(newpass);
                 entity.SaveChanges();
-                helper.ManageLogs(user.UserId, "Password updated successfully.");
+                helper.ManageLogs(user.Id, "Password updated on " + DateTime.Now);
                 result.Success = true;
-                result.Message = "Password updated successfully.";
+                result.Message = user.IsAdmin ? "Admin" : "User";
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 helper.ManageLogs(userid, ex.Message);
                 result.Success = false;
@@ -166,7 +319,6 @@ namespace HotelManagment.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-
 
         private UserModel CheckUserSession()
         {

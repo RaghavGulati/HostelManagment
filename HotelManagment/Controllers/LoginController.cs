@@ -34,7 +34,7 @@ namespace HotelManagment.Controllers
             int userid = 0;
             try
             {
-                var user = FindUser(email);//(from usr in entity.Users where usr.Email == email select usr).FirstOrDefault();
+                var user = helper.FindUserByEmail(email);//(from usr in entity.Users where usr.Email == email select usr).FirstOrDefault();
                 if (user == null || !String.Equals(helper.Decode(user.Password), password))
                 {
                     model.Success = false;
@@ -50,14 +50,7 @@ namespace HotelManagment.Controllers
                 userid = user.Id;
                 helper.ManageLogs(user.Id, "User Login to the account");
 
-                UserModel usermodel = new UserModel();
-                usermodel.UserId = user.Id;
-                usermodel.IsAdmin = user.IsAdmin;
-                usermodel.IsActive = user.IsActive;
-                usermodel.Email = user.Email;
-                usermodel.FirstName = user.FirstName;
-                usermodel.LastName = user.LastName;
-                usermodel.IsProfileCompleted = user.IsProfileCompleted;
+                UserModel usermodel = helper.Mapper(user);
                 Session["CurrentUser"] = usermodel;
 
                 model.Success = true;
@@ -80,7 +73,7 @@ namespace HotelManagment.Controllers
             AjaxModel model = new AjaxModel();
             try
             {
-                var existuser = FindUser(email);
+                var existuser = helper.FindUserByEmail(email);
                 if (existuser != null)
                 {
                     model.Success = false;
@@ -95,8 +88,6 @@ namespace HotelManagment.Controllers
                 user.IsProfileCompleted = false;
                 user.CreatedOn = DateTime.Now;
                 user.IsActive = false;
-                user.RoomAssigned = false;
-                user.RoomRequested = false;
                 entity.Users.Add(user);
                 entity.SaveChanges();
                 helper.ManageLogs(user.Id, "New User Created");
@@ -119,7 +110,7 @@ namespace HotelManagment.Controllers
             AjaxModel result = new AjaxModel();
             try
             {
-                var user = FindUser(email);
+                var user = helper.FindUserByEmail(email);
                 user.Password = helper.Encode(newPassword);
                 entity.SaveChanges();
                 helper.ManageLogs(user.Id, "Password updated by user.");
@@ -143,7 +134,7 @@ namespace HotelManagment.Controllers
             int userid = 0;
             try
             {
-                var user = FindUser(email);
+                var user = helper.FindUserByEmail(email);
                 if (user == null)
                 {
                     result.Success = false;
@@ -168,12 +159,6 @@ namespace HotelManagment.Controllers
                     result.Success = true;
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
-
-                //userid = user.Id;
-                //Random random = new Random();
-                //int value = random.Next(10000);
-                //user.RecoveryPassword = value;
-                //entity.SaveChanges();
                 
                 result.Success = false;
                 result.Message = "Internal server error..";
@@ -187,13 +172,5 @@ namespace HotelManagment.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-        private User FindUser(string email)
-        {
-            UserModel model = new UserModel();
-            var user = (from usr in entity.Users where usr.Email.ToLower().ToString() == email.ToLower().ToString() select usr).FirstOrDefault();
-            return user;
-        }
-
-
     }
 }

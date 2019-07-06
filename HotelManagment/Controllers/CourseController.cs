@@ -61,10 +61,12 @@ namespace HotelManagment.Controllers
                 {
                     entity.Courses.Add(model);
                     helper.ManageLogs(session.UserId, "New Course added by " + session.FirstName + " " + session.LastName);
+                    result.Message = "New Course added successfully.";
                 }
                 else
                 {
                     helper.ManageLogs(session.UserId, "Course updated added by " + session.FirstName + " " + session.LastName);
+                    result.Message = "Course updated successfully.";
                 }
                 entity.SaveChanges();
                 result.Success = true;

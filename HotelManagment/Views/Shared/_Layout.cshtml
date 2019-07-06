@@ -27,7 +27,7 @@
 <body>
     @{ var user = (UserModel)Session["CurrentUser"];
         string path = HttpContext.Current.Request.Url.AbsolutePath;
-        if ((user.IsProfileCompleted == null || user.IsProfileCompleted == false) && !path.Contains("User/Profile") )
+        if ((user.IsProfileCompleted == null || user.IsProfileCompleted == false) && !path.Contains("User/Profile"))
         {
             <div class="modal" id="myModal" data-backdrop="false" style="display:block;">
                 <div class="modal-dialog">
@@ -47,7 +47,7 @@
                         <!-- Modal footer -->
                         <div class="modal-footer">
                             @*<button type="button" class="btn btn-danger" data-dismiss="modal"></button>*@
-                            <a href="/User/Profile" class="btn btn-danger">My Profile</a>
+                            <a href="/MyProfile" class="btn btn-danger">My Profile</a>
                         </div>
 
                     </div>
@@ -71,14 +71,10 @@
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                             @*<img src="~/Content/images/user/face28.jpg" alt="profile" />*@
-                            User Name
+                          <p>Welcome</p>  @user.FirstName @user.LastName
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                            <a class="dropdown-item">
-                                <i class="ti-settings text-primary"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item">
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">                           
+                            <a href="/Logout" class="dropdown-item">
                                 <i class="ti-power-off text-primary"></i>
                                 Logout
                             </a>
@@ -95,54 +91,69 @@
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
+                    @{ if (user.IsAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/AdminDashBoard">
+                                    <i class="ti-home menu-icon"></i>
+                                    <span class="menu-title">Dashboard</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/UserDashBoard">
+                                    <i class="ti-home menu-icon"></i>
+                                    <span class="menu-title">Dashboard</span>
+                                </a>
+                            </li>
+                        } }
                     <li class="nav-item">
-                        <a class="nav-link" href="/AdminDashBoard">
-                            <i class="ti-home menu-icon"></i>
-                            <span class="menu-title">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/User/Profile">
+                        <a class="nav-link" href="/MyProfile">
                             <i class="ti-user menu-icon"></i>
                             <span class="menu-title">My Profile</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/User/ChangePassword">
+                        <a class="nav-link" href="/Security">
                             <i class="ti-shield menu-icon"></i>
                             <span class="menu-title">Security</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="ti-palette menu-icon"></i>
-                            <span class="menu-title">Rooms</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic" style="">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="/Hostel/AddRoom">Add Room</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="/Hostel/AssignRoom">Assign Rooms</a></li>
-                            </ul>
-                        </div>
-                    </li>
                     @{ if (user.IsAdmin)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="/User/Index">
+                                <a class="nav-link collapsed" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                    <i class="ti-palette menu-icon"></i>
+                                    <span class="menu-title">Rooms</span>
+                                    <i class="menu-arrow"></i>
+                                </a>
+                                <div class="collapse" id="ui-basic" style="">
+                                    <ul class="nav flex-column sub-menu">
+                                        <li class="nav-item"> <a class="nav-link" href="/RoomsInfo">All Rooms</a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="/AddEditRoom">Add Room</a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="/RoomRequests">Assign Rooms</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link collapsed" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                     <i class="ti-book menu-icon"></i>
                                     <span class="menu-title">Users</span>
+                                    <i class="menu-arrow"></i>
                                 </a>
+                                <div class="collapse" id="ui-basic" style="">
+                                    <ul class="nav flex-column sub-menu">
+                                        <li class="nav-item"> <a class="nav-link" href="/AllUsers">AllUsers</a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="/AddEditUser">Create User</a></li>
+                                    </ul>
+                                </div>
                             </li>
+                            
                             <li class="nav-item">
-                                <a class="nav-link" href="/Hostel/Index">
-                                    <i class="ti-home menu-icon"></i>
-                                    <span class="menu-title">Rooms</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Course/AllCourses">
+                                <a class="nav-link" href="/AllCourses">
                                     <i class="ti-book menu-icon"></i>
                                     <span class="menu-title">Courses</span>
                                 </a>
@@ -151,7 +162,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="/User/Index">
+                                <a class="nav-link" href="/GetRoom">
                                     <i class="ti-book menu-icon"></i>
                                     <span class="menu-title">Book Hostel</span>
                                 </a>
@@ -160,11 +171,11 @@
 
                     }
                     <li class="nav-item">
-                        <a class="nav-link" href="/Login/Logout">
+                        <a class="nav-link" href="/Logout">
                             <i class="ti-shield menu-icon"></i>
                             <span class="menu-title">Logout</span>
                         </a>
-                    </li>                    
+                    </li>
                 </ul>
             </nav>
             <!-- partial -->
@@ -215,7 +226,7 @@
 
     <!-- The Modal -->
 
-    
+
     <script src="~/content/js/plugins/jquery-1.11.3.min.js"></script>
     <script src="~/content/js/popper.min.js"></script>
     <script src="~/content/js/plugins/jquery.dataTables.min.js"></script>
@@ -254,12 +265,13 @@
     <script>
         $(document).ready(function () {
             $('.loader').hide();
-            $('#tblhistory').DataTable();
         });
         $('.show-loader').click(function () {
             $('.loader').show();
         });
-
+        $(".cancel").click(function () {
+            window.history.go(-1); return false;
+        });
     </script>
 
 

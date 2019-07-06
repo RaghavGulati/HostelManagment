@@ -26,6 +26,7 @@ namespace HotelManagment.Database_Model
         public Nullable<decimal> Fees { get; set; }
         public bool IsActive { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<int> Duration { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Courses> User_Courses { get; set; }

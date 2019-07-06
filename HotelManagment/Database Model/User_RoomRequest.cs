@@ -12,13 +12,16 @@ namespace HotelManagment.Database_Model
     using System;
     using System.Collections.Generic;
     
-    public partial class User_Rooms
+    public partial class User_RoomRequest
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int RoomId { get; set; }
+        public int Budegt { get; set; }
+        public bool IsRoomAssigned { get; set; }
+        public string Message { get; set; }
+        public Nullable<System.DateTime> CheckIn { get; set; }
+        public Nullable<bool> CancelRequest { get; set; }
     
         public virtual User User { get; set; }
-        public virtual HostelRoom HostelRoom { get; set; }
     }
 }

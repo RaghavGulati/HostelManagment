@@ -135,7 +135,7 @@
     // var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
     var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/gi;
     var admin = '@Url.Action("Index","Admin")';
-    var user = '@Url.Action("Index","Admin")';
+    var user = '@Url.Action("Dashboard","User")';
 
     $("#login_btn").click(function () {
         var email = $("#email").val();
@@ -163,10 +163,15 @@
                 if (result.Success) {
                     window.location.href = result.Message == "Admin" ? admin : user;
                 }
-                else
+                else {
+                    $("#email").val("");
+                    $("#password").val("");
                     alert(result.Message);
+                }
             },
             error: function (result) {
+                $("#email").val("");
+                $("#password").val("");
                 alert(result.Message);
             }
         });

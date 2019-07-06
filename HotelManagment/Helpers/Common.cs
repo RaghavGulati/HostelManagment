@@ -1,4 +1,5 @@
 ﻿using HotelManagment.Database_Model;
+using HotelManagment.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,17 @@ namespace HotelManagment.Helpers
             return System.Text.Encoding.UTF8.GetString(encoded);
         }
 
+        public User FindUserById(int id)
+        {
+            var user = (from usr in entity.Users where usr.Id == id select usr).FirstOrDefault();
+            return user;
+        }
+
+        public User FindUserByEmail(string email)
+        {
+            var user = (from usr in entity.Users where usr.Email.ToLower().ToString() == email.ToLower().ToString() select usr).FirstOrDefault();
+            return user;
+        }
         public void ManageLogs(int userId, String desc)
         {
             AccessLog log = new AccessLog();
@@ -49,5 +61,22 @@ namespace HotelManagment.Helpers
             }
             return IPAddress;
         }
+
+        public UserModel Mapper(User user)
+        {
+            UserModel usermodel = new UserModel();
+            usermodel.UserId = user.Id;
+            usermodel.IsAdmin = user.IsAdmin;
+            usermodel.IsActive = user.IsActive;
+            usermodel.Email = user.Email;
+            usermodel.FirstName = user.FirstName;
+            usermodel.LastName = user.LastName;
+            usermodel.IsProfileCompleted = user.IsProfileCompleted;
+            usermodel.Dob = (Convert.ToDateTime(user.Dob)).ToString("dd/MM/yyyy");
+            usermodel.Mobile = user.Mobile;
+            usermodel.Gender = user.Gender;
+            return usermodel;
+        }
+
     }
 }

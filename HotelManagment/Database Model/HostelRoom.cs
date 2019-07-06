@@ -27,7 +27,6 @@ namespace HotelManagment.Database_Model
         public int NoOfBeds { get; set; }
         public int RoomNo { get; set; }
         public decimal RoomChangres { get; set; }
-        public int VacantRooms { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Room_Bed> User_Room_Bed { get; set; }

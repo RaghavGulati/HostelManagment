@@ -5,7 +5,10 @@
 }
 
 @* ACCESS LOGS SECTION *@
+
+<a href="/Course/AddCourse" class="btn btn-primary btn-icon-text btn-rounded show-loader"><i class="ti-plus btn-icon-prepend"></i>Add New Course</a>
 <div class="col-md-12 grid-margin stretch-card">
+
     <div class="card">
         <div class="card-body p-0">
             <p class="card-title">All Courses</p>
@@ -30,7 +33,7 @@
                                     <td>@cors.Description</td>
                                     <td>@cors.Fees</td>
                                     <td>@cors.IsActive</td>
-                                    <td><a href="/Course/AddCourse?Id=@cors.Id">Edit</a></td>
+                                    <td><a href="/AddEditCourse?Id=@cors.Id">Edit</a></td>
                                 </tr>
                             }
                         }

@@ -23,6 +23,7 @@ namespace HotelManagment.Database_Model
         public string PostCode { get; set; }
         public int CountryId { get; set; }
         public bool IsPrimary { get; set; }
+        public string Mobile { get; set; }
     
         public virtual City City { get; set; }
         public virtual Country Country { get; set; }

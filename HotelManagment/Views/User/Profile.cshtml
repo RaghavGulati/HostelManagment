@@ -72,53 +72,58 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                @*<label class="col-sm-3 col-form-label">IsAdmin</label>*@
-                                <div class="col-sm-4">
-                                    <div class="form-check form-check-primary">
-                                        <label class="form-check-label">
-                                            Is Active
-                                            @{
-                                                if (Model.IsActive)
-                                                {
-                                                    <input type="checkbox" name="IsActive" class="isactive form-check-input" checked="">
-                                                    <i class="input-helper" name="IsActive"></i>
-                                                }
-                                                else
-                                                {
-                                                    <input type="checkbox" name="IsActive" class="isactive form-check-input">
-                                                    <i class="input-helper" name="IsActive"></i>
-                                                }
+                        @{ if (Model.IsAdmin)
+                            {
 
-                                            }
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        @*<label class="col-sm-3 col-form-label">IsAdmin</label>*@
+                                        <div class="col-sm-4">
+                                            <div class="form-check form-check-primary">
+                                                <label class="form-check-label">
+                                                    Is Active
+                                                    @{
+                                                        if (Model.IsActive)
+                                                        {
+                                                            <input type="checkbox" name="IsActive" class="isactive form-check-input" checked="">
+                                                            <i class="input-helper" name="IsActive"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" name="IsActive" class="isactive form-check-input">
+                                                            <i class="input-helper" name="IsActive"></i>
+                                                        }
 
-                                        </label>
+                                                    }
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="form-check form-check-primary">
+                                                <label class="form-check-label">
+                                                    Is Admin
+                                                    @{
+                                                        if (Model.IsAdmin)
+                                                        {
+                                                            <input type="checkbox" name="IsAdmin" class="isadmin form-check-input" checked="">
+                                                            <i class="input-helper" name="IsAdmin"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" name="IsAdmin" class="isadmin form-check-input">
+                                                            <i class="input-helper" name="IsAdmin"></i>
+                                                        }
+
+                                                    }
+
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-5">
-                                    <div class="form-check form-check-primary">
-                                        <label class="form-check-label">
-                                            Is Admin
-                                            @{
-                                                if (Model.IsAdmin)
-                                                {
-                                                    <input type="checkbox" name="IsAdmin" class="isadmin form-check-input" checked="">
-                                                    <i class="input-helper" name="IsAdmin"></i>
-                                                }
-                                                else
-                                                {
-                                                    <input type="checkbox" name="IsAdmin" class="isadmin form-check-input">
-                                                    <i class="input-helper" name="IsAdmin"></i>
-                                                }
-
-                                            }
-
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                                        } }
+                       
                     </div>
                     <p class="card-description">
                         Address
@@ -202,7 +207,7 @@
                                     <select class="form-control" name="country" id="country">
                                         @foreach (var cntry in Model.Countries)
                                         {
-                                            if (cntry.Id == Model.CityId)
+                                            if (cntry.Id == Model.CountryId)
                                             {
                                                 <option value="@cntry.Id" selected="selected">@cntry.Country1</option>
                                             }
@@ -218,7 +223,7 @@
                     </div>
                     <div class="text-right">
                         <button type="button" id="save-btn" class="btn btn-primary mr-2">Update Profile</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button class="btn btn-light cancel">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -266,8 +271,8 @@
             alert("Please select date of birth");
             return false
         }
-        else if (Mobile == "") {
-            alert("Please enter the mobile number");
+        else if (Mobile == "" || Mobile.length<10) {
+            alert("Please enter the valid mobile number");
             return false
         }
         else if (add1 == "") {

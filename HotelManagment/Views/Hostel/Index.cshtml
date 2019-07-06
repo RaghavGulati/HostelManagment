@@ -4,6 +4,8 @@
 }
 
 @* ACCESS LOGS SECTION *@
+
+<a href="/Hostel/AddRoom" class="btn btn-primary btn-icon-text btn-rounded show-loader"><i class="ti-plus btn-icon-prepend"></i>Add New Room</a>
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body p-0">
@@ -29,7 +31,7 @@
                                     <td>@cors.Floor</td>
                                     <td>@cors.NoOfBeds</td>
                                     <td>@cors.RoomChangres</td>
-                                    <td><a href="/Hostel/AddRoom?Id=@cors.Id">Edit</a></td>
+                                    <td><a href="/AddEditRoom?Id=@cors.Id">Edit</a></td>
                                 </tr>
                             }
                         }
