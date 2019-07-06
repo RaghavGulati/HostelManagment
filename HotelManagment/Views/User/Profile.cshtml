@@ -283,6 +283,7 @@
             alert("Please enter PostCode.");
             return false
         }
+        $('.loader').show();
         var data = {"UserId":userid,"AddressId":addressid,
             "FirstName": first, "LastName": last, "Gender": gender, "Dob": Dob, "Mobile": Mobile, "IsActive": isactive, "IsAdmin": isadmin, "Address1": add1,
             "Address2": add2, "StateId": state, "CityId": city, "CountryId": country, "PostCode": post
@@ -294,7 +295,7 @@
             cache: false,
             data: data,
             success: function (result) {
-                debugger;
+                $('.loader').hide();
                 if (result.Success) {
                     alert(result.Message);
                 }
@@ -302,6 +303,7 @@
                     alert(result.Message);
             },
             error: function (result) {
+                $('.loader').hide();
                 alert(result.Message);
             }
         });

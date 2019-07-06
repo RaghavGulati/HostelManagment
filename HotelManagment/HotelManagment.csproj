@@ -1828,6 +1828,7 @@
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\norway.png" />
     <Content Include="Content\images\spain.png" />
+    <Content Include="Content\images\Spinner-1s-200px.gif" />
     <Content Include="Content\images\uk.png" />
     <Content Include="Content\images\user\face28.jpg" />
     <Content Include="Content\index.css" />

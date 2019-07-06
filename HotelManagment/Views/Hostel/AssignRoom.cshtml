@@ -150,13 +150,14 @@
             return false;
         }
         var data = { "roomid": roomid };
+        $('.loader').show();
         $.ajax({
             type: "Get",
             url: "/Hostel/GetRoomInfo",
             cache: false,
             data: data,
             success: function (result) {
-                debugger;
+                $('.loader').hide();
                 if (result.Floor != undefined) {
                     $("#floor").text(result.Floor);
                     $("#charges").text(result.RoomChangres);
@@ -177,6 +178,7 @@
                     alert(result.Message);
             },
             error: function (result) {
+                $('.loader').hide();
                 alert(result.Message);
             }
         });
@@ -186,14 +188,15 @@
         var roomid = $("#room-option option:selected").val();
 //        var userId = $("#userid").val();
         var requestId = $("#requestId").val();
-        var data = { "roomId": roomid, "requestID": requestId }
+        var data = { "roomId": roomid, "requestID": requestId };
+        $('.loader').show();
         $.ajax({
             type: "Post",
             url: "/Hostel/AssignRoomToUser",
             cache: false,
             data: data,
             success: function (result) {
-                debugger;
+                $('.loader').hide();
                 if (result.Success) {
                     alert(result.Message);
                 }
@@ -202,6 +205,7 @@
                 }
             },
             error: function (result) {
+                $('.loader').hide();
                 alert(result.Message);
             }
         });
@@ -214,7 +218,8 @@
             alert("Please enter cancel request reason.")
             return false;
         }
-        var data = { "requestID": requestId,"message":mess }
+        var data = { "requestID": requestId, "message": mess };
+        $('.loader').show();
         $.ajax({
             type: "Post",
             url: "/Hostel/CancelRoomRequest",
@@ -229,9 +234,9 @@
                 }
             },
             error: function (result) {
+                $('.loader').hide();
                 alert(result.Message);
             }
         });
-
     });
 </script>

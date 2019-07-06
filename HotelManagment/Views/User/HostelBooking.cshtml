@@ -117,6 +117,21 @@
 
                             </div>
                             <div class="row">
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Address 2</label>
@@ -268,6 +283,7 @@
             "userId": userid, "courseId": course, "budget": budget, "checkin": checkin, "AddressId": addressid,
             "address1": add1, "address2": add2, "guardianmobile": gmobile, "city": city, "state": state, "country": country, "postcode": post
         }
+        $('.loader').show();
         $.ajax({
             type: "Post",
             url: "/User/SaveHostelRequest",
@@ -275,7 +291,7 @@
             cache: false,
             data: data,
             success: function (result) {
-                debugger;
+                $('.loader').hide();
                 if (result.Success) {
                     alert(result.Message);
                 }
@@ -283,7 +299,8 @@
                     alert(result.Message);
             },
             error: function (result) {
-                alert(result.Message);
+                $('.loader').hide();
+                alert(result);
             }
         });
     });

@@ -98,21 +98,24 @@
         var desc = $(".desc").val();
         var fees = $(".fees").val();
         var isactive = $(".isactive").is(":checked")?true:false;
-        var data = {"Id":$("#courseId").val(), "Name": name, "Description": desc, "Fees": fees, "IsActive": isactive };
+        var data = { "Id": $("#courseId").val(), "Name": name, "Description": desc, "Fees": fees, "IsActive": isactive };
+        $('.loader').show();
         $.ajax({
             type: "Post",
             url: "/Course/SaveCourse",
             cache: false,
             data: data,
             success: function (result) {
+                $('.loader').hide();
                 if (result.success) {
                     alert(result.Message);
                 }
-                else
+                else 
                     alert(result.Message);
             },
             error: function (result) {
-
+                $('.loader').hide();
+                alert(result);
             }
         });
 

@@ -20,7 +20,7 @@
                                 <label class="col-sm-3 col-form-label">First Name</label>
                                 <div class="col-sm-9">
                                     <input type="text" id="new-name" class="form-control" autocomplete="off" placeholder="name">
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -67,8 +67,8 @@
                                     <div class="form-check form-check-primary">
                                         <label class="form-check-label">
                                             Is Active
-                                                    <input type="checkbox" name="IsActive" class="isactive form-check-input">
-                                                    <i class="input-helper" name="IsActive"></i>
+                                            <input type="checkbox" name="IsActive" class="isactive form-check-input">
+                                            <i class="input-helper" name="IsActive"></i>
 
                                         </label>
                                     </div>
@@ -77,19 +77,19 @@
                                     <div class="form-check form-check-primary">
                                         <label class="form-check-label">
                                             Is Admin
-                                                    <input type="checkbox" name="IsAdmin" class="isadmin form-check-input">
-                                                    <i class="input-helper" name="IsAdmin"></i>
+                                            <input type="checkbox" name="IsAdmin" class="isadmin form-check-input">
+                                            <i class="input-helper" name="IsAdmin"></i>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="text-right">
                         <button type="button" id="signup" class="btn btn-primary mr-2">Add User</button>
                         @*<button class="btn btn-light">Cancel</button>*@
-                        <a href="/AdminDashBoard"  class="btn btn-light">Cancel</a>
+                        <a href="/AdminDashBoard" class="btn btn-light">Cancel</a>
                     </div>
                 </form>
             </div>
@@ -121,7 +121,6 @@
         var mobile = $("#mobileno").val();
         var isactive = $(".isactive").is(":checked") ? true : false;
         var isadmin = $(".isadmin").is(":checked") ? true : false;
-        debugger;
         if (name == "") {
             alert("please enter name");
             return false;
@@ -145,7 +144,7 @@
         else if (cnfrm != pass) {
             alert("Password mismatch");
             return false;
-        }
+        } $('.loader').show();
         var data = { "email": email, "name": name, "password": pass, "Mobile": mobile, "IsActive": isactive, "IsAdmin": isadmin }
         $.ajax({
             type: "Post",
@@ -154,14 +153,15 @@
             cache: false,
             data: data,
             success: function (result) {
+                $('.loader').hide();
                 if (result.Success) {
-                    debugger;
                     alert(result.Message);
                 }
                 else
                     alert(result.Message);
             },
             error: function (result) {
+                $('.loader').hide();
                 alert(result.Message);
             }
         });

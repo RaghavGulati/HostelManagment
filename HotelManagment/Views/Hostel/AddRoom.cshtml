@@ -100,7 +100,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-
         //called when key is pressed in textbox
         $(".number").keypress(function (e) {
             //if the letter is not digit then display error and don't type anything
@@ -143,6 +142,7 @@
             alert("Please enter room charges.")
             return false;
         }
+        $('.loader').show();
         var data = { "Id": id, "Description": desc, "Floor": floor, "NoOfBeds": beds, "RoomNo": room,"RoomChangres":charges }
         $.ajax({
             type: "Post",
@@ -150,7 +150,7 @@
             cache: false,
             data: data,
             success: function (result) {
-                debugger;
+                $('.loader').hide();
                 if (result.Success) {
                     $("#Id").val("");
                     $("#RoomNo").val("");
@@ -164,9 +164,9 @@
                     alert(result.Message);
             },
             error: function (result) {
-
+                $('.loader').hide();
+                alert(result);
             }
         });
     });
-
 </script>

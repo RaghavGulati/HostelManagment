@@ -10,11 +10,6 @@
         </div>
         <div class="pull-right lang_select">
             <partial name="_SelectLanguagePartial" />
-            @*<select asp-for="loginVM.LanguageId" class="form-control select2">
-                    <option value="">-- Select Fish Type --</option>
-                    <option value="0">ENG</option>
-                    <option value="1">NORKS</option>
-                </select>*@
         </div>
     </div>
     <form class="main_form">
@@ -80,11 +75,6 @@
         </div>
         <div class="pull-right lang_select">
             <partial name="_SelectLanguagePartial" />
-            @*<select asp-for="loginVM.LanguageId" class="form-control select2">
-                    <option value="">-- Select Fish Type --</option>
-                    <option value="0">ENG</option>
-                    <option value="1">NORKS</option>
-                </select>*@
         </div>
     </div>
     <form method="post" class="main_form">
@@ -126,7 +116,17 @@
         </div>
     </form>
 </div>
-
+<div class="col-md-12 loader" style="height: 100vh; width: 100vw; background-color: #fff; position: fixed; display:none;">
+    <div class="centered">
+        <div class="boxes">
+            <div class="box">
+                <div>
+                    <img style="width: 115px;" src="~/Content/images/Spinner-1s-200px.gif" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -152,7 +152,8 @@
             alert("please enter password.");
             return false;
         }
-        var data = { 'email': email, 'password': pass }
+        var data = { 'email': email, 'password': pass };
+        $('.loader').show();
         $.ajax({
             type: "Post",
             url: "/Login/Login",
@@ -160,6 +161,7 @@
             cache: false,
             data: data,
             success: function (result) {
+                $('.loader').hide();
                 if (result.Success) {
                     window.location.href = result.Message == "Admin" ? admin : user;
                 }
@@ -172,6 +174,7 @@
             error: function (result) {
                 $("#email").val("");
                 $("#password").val("");
+                $('.loader').hide();
                 alert(result.Message);
             }
         });
@@ -209,7 +212,8 @@
             return false;
         }
 
-        var data = { 'email': email,"mobile": mobile}
+        var data = { 'email': email, "mobile": mobile };
+        $('.loader').show();
         $.ajax({
             type: "Post",
             url: "/Login/ResetPasswords",
@@ -217,8 +221,8 @@
             cache: false,
             data: data,
             success: function (result) {
+                $('.loader').hide();
                 if (result.Success) {
-                    debugger;
                     $(".forgot").hide();
                     $("#reset-email").val(email);
                     $(".reset-pass-div").show();
@@ -227,7 +231,8 @@
                     alert(result.Message);
             },
             error: function (result) {
-                alert(result.Message);
+                $('.loader').hide();
+                alert(result);
             }
         });
     });
@@ -247,6 +252,7 @@
             return false;
         }
         var data = { "email": email, "newPassword": newpass };
+        $('.loader').show();
         $.ajax({
             type: "Post",
             url: "/Login/UpdatePassword",
@@ -254,8 +260,8 @@
             cache: false,
             data: data,
             success: function (result) {
+                $('.loader').hide();
                 if (result.Success) {
-                    debugger;
                     alert(result.Message);
                     $(".reset-pass-div").hide();
                     $(".login").show();
@@ -264,7 +270,8 @@
                     alert(result.Message);
             },
             error: function (result) {
-                alert(result.Message);
+                $('.loader').hide();
+                alert(result);
             }
         });
     });
@@ -275,7 +282,6 @@
         var email = $("#new_email").val();
         var pass = $("#new-pass").val();
         var cnfrm = $("#new-cnfrmpass").val();
-        debugger;
         if (name == "") {
             alert("please enter name");
             return false;
@@ -301,6 +307,7 @@
             return false;
         }
         var data = { "email": email, "name": name, "password": pass }
+        $('.loader').show();
         $.ajax({
             type: "Post",
             url: "/Login/CreateUser",
@@ -308,15 +315,16 @@
             cache: false,
             data: data,
             success: function (result) {
+                $('.loader').hide();
                 if (result.Success) {
-                    debugger;
                     alert(result.Message);
                 }
                 else
                     alert(result.Message);
             },
             error: function (result) {
-                alert(result.Message);
+                $('.loader').hide();
+                alert(result);
             }
         });
     });
