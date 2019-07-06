@@ -1987,6 +1987,7 @@
     <Content Include="Database Model\Model2.edmx.diagram">
       <DependentUpon>Model2.edmx</DependentUpon>
     </Content>
+    <Content Include="Database\HostelManagement" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
