@@ -34,6 +34,29 @@ namespace HotelManagment.Helpers
             var user = (from usr in entity.Users where usr.Email.ToLower().ToString() == email.ToLower().ToString() select usr).FirstOrDefault();
             return user;
         }
+
+        public List<City> GetAllCities()
+        {
+            var cities = (from cty in entity.Cities select cty).ToList();
+            return cities;
+        }
+        public List<State> GetAllStates()
+        {
+            var states = (from stat in entity.States select stat).ToList();
+            return states;
+        }
+        public List<Country> GetAllCountries()
+        {
+            var countries = (from cntry in entity.Countries select cntry).ToList();
+            return countries;
+        }
+
+        public List<Courses> GetAllCourses()
+        {
+            var courses = (from cors in entity.Courses select cors).ToList();
+            return courses;
+        }
+
         public void ManageLogs(int userId, String desc)
         {
             AccessLog log = new AccessLog();

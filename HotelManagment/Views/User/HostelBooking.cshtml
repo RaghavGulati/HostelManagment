@@ -194,7 +194,8 @@
                                     }else if(Model.IsRoomRequested && Model.RooomAssigned == true && Model.CancelRequest == false)
                                     {
                                         <p style="padding-left:15px;">Room has been assigned to you.</p>
-                                        <button id="room-detail" class="btn btn-primary">Get Room Details</button>
+                                        @*<button id="room-detail" class="btn btn-primary">Get Room Details</button>*@
+                                        <a href="/RoomDetails" class="btn btn-primary">Get Room Details</a>
                                     }
                                     else if (Model.IsRoomRequested && Model.RooomAssigned == false && Model.CancelRequest == true)
                                     {

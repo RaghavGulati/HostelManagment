@@ -53,7 +53,7 @@ namespace HotelManagment.Controllers
             {
                 user = helper.FindUserById(Convert.ToInt16(Id));//(from usr in entity.Users where usr.Id == Id select usr).FirstOrDefault();
             }
-            else if(Id > 0 && !sessionUser.IsAdmin)
+            else if (Id > 0 && !sessionUser.IsAdmin)
             {
                 return RedirectToAction("Index", "Login");
             }
@@ -61,15 +61,6 @@ namespace HotelManagment.Controllers
             model.Countries = (from cntry in entity.Countries select cntry).ToList();
             model.State = (from state in entity.States select state).ToList();
             model.Cities = (from city in entity.Cities select city).ToList();
-            //model.UserId = user.Id;
-            //model.FirstName = user.FirstName;
-            //model.LastName = user.LastName;
-            //model.Email = user.Email;
-            //model.IsActive = user.IsActive;
-            //model.IsAdmin = user.IsAdmin;
-            //model.Mobile = user.Mobile;
-            //model.Dob = user.Dob != null ? (Convert.ToDateTime(user.Dob)).ToString("dd/MM/yyyy") : string.Empty;
-            //model.Gender = user.Gender;
             var address = (from add in entity.User_Address where add.UserId == model.UserId || add.IsPrimary == true select add).FirstOrDefault(); //user.User_Address.Where(x => x.IsPrimary == true).FirstOrDefault();
             if (address != null)
             {
@@ -92,6 +83,59 @@ namespace HotelManagment.Controllers
                 return RedirectToAction("Index", "Login");
 
             return View();
+        }
+
+        public ActionResult GetRoomDetails()
+        {
+            UserModel sessionUser = CheckUserSession();
+            if (sessionUser == null)
+                return RedirectToAction("Index", "Login");
+
+            RoomBookedDetails model = new RoomBookedDetails();
+
+            #region Getting info from database
+            var user = helper.FindUserById(sessionUser.UserId);
+            var cities = helper.GetAllCities();
+            var states = helper.GetAllStates();
+            var countries = helper.GetAllCountries();
+            var course = helper.GetAllCourses();
+            var userRoomReq = user.User_RoomRequest.FirstOrDefault();
+            var userRoom = user.User_Rooms.FirstOrDefault();
+            var userCourse = user.User_Courses.FirstOrDefault();
+            var roomInfo = (from room in entity.HostelRooms where room.Id == userRoom.RoomId select room).FirstOrDefault();
+            #endregion
+
+            #region Binidng infor into view model
+            model.UserId = sessionUser.UserId;
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.Gender = user.Gender;
+            model.Dob = (Convert.ToDateTime(user.Dob)).ToString("dd/MM/yyyy");
+            model.Mobile = user.Mobile;
+            model.Course = course.Where(x => x.Id == userCourse.CourseId).Select(x => x.Name).FirstOrDefault();
+            model.AddressList = new List<RoomBookedDetails.Address>();
+            foreach (var add in user.User_Address)
+            {
+                var temp = new RoomBookedDetails.Address();
+                temp.Address1 = add.Address1;
+                temp.Address2 = add.Address2;
+                temp.Address2 = add.Address2;
+                temp.City = cities.Where(x => x.Id == add.CityId).Select(x => x.City1).FirstOrDefault();
+                temp.State = states.Where(x => x.Id == add.StateId).Select(x => x.State1).FirstOrDefault();
+                temp.Country = countries.Where(x => x.Id == add.CountryId).Select(x => x.Country1).FirstOrDefault();
+                temp.PostCode = add.PostCode;
+                temp.GuradianMobile = add.Mobile;
+                temp.IsPrimary = add.IsPrimary;
+                model.AddressList.Add(temp);
+            }
+            model.RoomNo = roomInfo.RoomNo;
+            model.RoomChangres = roomInfo.RoomChangres;
+            model.CheckIn = (Convert.ToDateTime(userRoomReq.CheckIn)).ToString("dd/MM/yyyy");
+            model.Floor = roomInfo.Floor;
+            model.Description = roomInfo.Description;
+            #endregion
+
+            return View(model);
         }
 
         [HttpPost]

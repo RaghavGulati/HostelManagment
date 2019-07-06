@@ -242,6 +242,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\RoomBookedDetails.cs" />
     <Compile Include="Models\RoomInfoModel.cs" />
     <Compile Include="Models\RoomRequestModel.cs" />
     <Compile Include="Models\User\UserModel.cs" />
@@ -2049,6 +2050,7 @@
     <Content Include="Views\User\AddUser.cshtml" />
     <Content Include="Views\User\HostelBooking.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
+    <Content Include="Views\User\GetRoomDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

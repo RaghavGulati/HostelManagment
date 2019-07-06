@@ -87,6 +87,11 @@ url: "AssignRoom",
 defaults: new { controller = "Hostel", action = "AssignRoom" }
 );
             routes.MapRoute(
+name: "RoomDetails",
+url: "RoomDetails",
+defaults: new { controller = "User", action = "GetRoomDetails" }
+);
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
