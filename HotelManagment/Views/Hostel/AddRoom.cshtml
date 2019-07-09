@@ -97,7 +97,8 @@
     </div>
 
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>s
 <script>
     $(document).ready(function () {
         //called when key is pressed in textbox
@@ -110,8 +111,7 @@
             }
         });
     });
-
-    $(window).load(function () {
+    $(window).on('load', function () {
         if ($("#Id").val() == "") {
             $("#RoomNo").val("");
             $("#Floor").val("");
@@ -152,13 +152,14 @@
             success: function (result) {
                 $('.loader').hide();
                 if (result.Success) {
-                    $("#Id").val("");
-                    $("#RoomNo").val("");
-                    $("#Description").val("");
-                    $("#Floor").val("");
-                    $("#NoOfBeds").val("");
-                    $("#RoomChangres").val("");
+                    //$("#Id").val("");
+                    //$("#RoomNo").val("");
+                    //$("#Description").val("");
+                    //$("#Floor").val("");
+                    //$("#NoOfBeds").val("");
+                    //$("#RoomChangres").val("");
                     alert(result.Message);
+                    window.location.href = '@Url.Action("Index","Hostel")';
                 }
                 else
                     alert(result.Message);

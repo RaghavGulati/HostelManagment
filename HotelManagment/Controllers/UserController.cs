@@ -4,6 +4,7 @@ using HotelManagment.Models;
 using HotelManagment.Models.User;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -61,7 +62,7 @@ namespace HotelManagment.Controllers
             model.Countries = (from cntry in entity.Countries select cntry).ToList();
             model.State = (from state in entity.States select state).ToList();
             model.Cities = (from city in entity.Cities select city).ToList();
-            var address = (from add in entity.User_Address where add.UserId == model.UserId || add.IsPrimary == true select add).FirstOrDefault(); //user.User_Address.Where(x => x.IsPrimary == true).FirstOrDefault();
+            var address = (from add in entity.User_Address where add.UserId == model.UserId && add.IsPrimary == true select add).FirstOrDefault(); //user.User_Address.Where(x => x.IsPrimary == true).FirstOrDefault();
             if (address != null)
             {
                 model.AddressId = address.Id;
@@ -75,14 +76,21 @@ namespace HotelManagment.Controllers
             }
             return View(model);
         }
+        
 
-        public ActionResult AddUser()
+        public ActionResult AddUser(int? Id)
         {
             var sessionUser = CheckUserSession();
             if (sessionUser == null || !sessionUser.IsAdmin)
                 return RedirectToAction("Index", "Login");
 
-            return View();
+            UserModel model = new UserModel();
+            if (Id > 0)
+            {
+                User user = helper.FindUserById(Convert.ToInt16(Id));
+                model = helper.Mapper(user);
+            }
+            return View(model);
         }
 
         public ActionResult GetRoomDetails()
@@ -139,34 +147,41 @@ namespace HotelManagment.Controllers
         }
 
         [HttpPost]
-        public JsonResult CreateUser(string email, string name, string password, string mobile, bool IsActive, bool IsAdmin)
+        public JsonResult CreateUser(int Id, string email, string name, string password, string mobile, bool IsActive, bool IsAdmin)
         {
             AjaxModel model = new AjaxModel();
             try
             {
                 UserModel session = (UserModel)Session["CurrentUser"];
                 var existuser = helper.FindUserByEmail(email);
-                if (existuser != null)
+                if (existuser != null && Id==0)
                 {
                     model.Success = false;
                     model.Message = "Email already exist in database.";
                     return Json(model, JsonRequestBehavior.AllowGet);
                 }
                 User user = new User();
+                if (Id > 0)
+                {
+                    user = helper.FindUserById(Id);
+                }
                 user.FirstName = name;
-                user.IsAdmin = false;
-                user.Password = helper.Encode(password);
+
                 user.Email = email;
                 user.IsProfileCompleted = false;
                 user.CreatedOn = DateTime.Now;
                 user.IsActive = IsActive;
                 user.IsAdmin = IsAdmin;
                 user.Mobile = mobile;
-                entity.Users.Add(user);
+                if (Id == 0)
+                {
+                    user.Password = helper.Encode(password);
+                    entity.Users.Add(user);
+                }
                 entity.SaveChanges();
                 helper.ManageLogs(session.UserId, "New User Created by " + session.FirstName + " " + session.LastName);
                 model.Success = true;
-                model.Message = "New user has been created successfull.";
+                model.Message = Id == 0 ? "New user has been created successfully." : "User has been updated successfully.";
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -176,6 +191,11 @@ namespace HotelManagment.Controllers
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
         }
+
+        //[HttpPost]
+        //public JsonResult UpdateUser(UserModel model)
+        //{
+        //}
 
         [HttpPost]
         public JsonResult UpdateProfile(UserModel model)
@@ -196,7 +216,8 @@ namespace HotelManagment.Controllers
                 user.IsActive = user.IsAdmin ? model.IsActive : user.IsActive;
                 user.IsAdmin = user.IsAdmin ? model.IsAdmin : user.IsAdmin;
                 user.Mobile = model.Mobile;
-                user.Dob = Convert.ToDateTime(model.Dob);
+                CultureInfo provider = CultureInfo.InvariantCulture;
+                user.Dob = DateTime.ParseExact(model.Dob, "mm/dd/yyyy", provider);
                 user.IsProfileCompleted = true;//model.AddressId == 0 ? true : user.IsProfileCompleted;
                 user.Gender = model.Gender;
                 model.IsProfileCompleted = true;

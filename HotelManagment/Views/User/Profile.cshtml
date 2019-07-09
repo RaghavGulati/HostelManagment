@@ -1,7 +1,9 @@
-﻿@model HotelManagment.Models.User.UserModel
+﻿@using HotelManagment.Models.User;
+@model HotelManagment.Models.User.UserModel
 @{
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    UserModel session = (UserModel)Session["CurrentUser"];
 }
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -20,6 +22,7 @@
                     <p class="card-description">
                         Personal info
                     </p>
+                    <input type="hidden" id="sessionid" value="@session.UserId"/>
                     @Html.HiddenFor(x => x.UserId)
                     <div class="row">
                         <div class="col-md-6">
@@ -72,7 +75,7 @@
                                 </div>
                             </div>
                         </div>
-                        @{ if (Model.IsAdmin)
+                        @{ if (session.IsAdmin)
                             {
 
                                 <div class="col-md-6">
@@ -247,6 +250,25 @@
         });
     });
 
+    $(window).on('load', function () {
+        if ($("#UserId").val() != $("#sessionid").val()) {
+            $("#FirstName").attr("disabled", "disabled");
+            $("#LastName").attr("disabled", "disabled");
+            $("#gender").attr("disabled", "disabled");
+            $("#Dob").attr("disabled", "disabled");
+            $("#Mobile").attr("disabled", "disabled");
+            $("#Address1").attr("disabled", "disabled");
+            $("#PostCode").attr("disabled", "disabled");
+            $("#Address2").attr("disabled", "disabled");
+            $("#state").attr("disabled", "disabled");
+            $("#city").attr("disabled", "disabled");
+            $("#country").attr("disabled", "disabled");
+            $(".isactive").attr("disabled", "disabled");
+            $(".isadmin").attr("disabled", "disabled");
+            $("#save-btn").hide();
+        }
+    });
+
     $("#save-btn").click(function () {
         var userid = $("#UserId").val();
         var addressid = $("#AddressId").val();
@@ -267,7 +289,8 @@
             alert("Please enter first and last name");
             return false
         }
-        else if (Dob == "") {
+        else if (Dob == "" || Dob == "01/01/0001") {
+            $("#Dob").val("");
             alert("Please select date of birth");
             return false
         }

@@ -52,7 +52,7 @@ namespace HotelManagment.Controllers
                 if (model == null)
                 {
                     result.Success = false;
-                    result.Message = "Internal Server Error. Please try again later.";
+                    result.Message = "Model Can't be null..";
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
                 model.IsActive = model.IsActive;
@@ -65,6 +65,17 @@ namespace HotelManagment.Controllers
                 }
                 else
                 {
+                    var course = (from cors in entity.Courses where cors.Id == model.Id select cors).FirstOrDefault();
+                    if(course == null)
+                    {
+                        result.Success = false;
+                        result.Message = "Course not found. Please try again later.";
+                        return Json(result, JsonRequestBehavior.AllowGet);
+                    }
+                    course.Name = model.Name;
+                    course.Description = model.Description;
+                    course.Fees = model.Fees;
+                    course.IsActive = model.IsActive;
                     helper.ManageLogs(session.UserId, "Course updated added by " + session.FirstName + " " + session.LastName);
                     result.Message = "Course updated successfully.";
                 }

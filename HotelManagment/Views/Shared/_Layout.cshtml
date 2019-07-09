@@ -27,7 +27,7 @@
 <body>
     @{ var user = (UserModel)Session["CurrentUser"];
         string path = HttpContext.Current.Request.Url.AbsolutePath;
-        if ((user.IsProfileCompleted == null || user.IsProfileCompleted == false) && !path.Contains("User/Profile"))
+        if ((user.IsProfileCompleted == null || user.IsProfileCompleted == false) && !path.Contains("MyProfile"))
         {
             <div class="modal" id="myModal" data-backdrop="false" style="display:block;">
                 <div class="modal-dialog">

@@ -107,8 +107,9 @@
             data: data,
             success: function (result) {
                 $('.loader').hide();
-                if (result.success) {
+                if (result.Success) {
                     alert(result.Message);
+                    window.location.href = '@Url.Action("AllCourses", "Course")';
                 }
                 else 
                     alert(result.Message);

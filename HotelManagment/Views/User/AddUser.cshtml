@@ -1,4 +1,4 @@
-﻿
+﻿@model HotelManagment.Models.User.UserModel
 @{
     ViewBag.Title = "AddUser";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,12 +14,14 @@
                     <p class="card-description">
                         Personal info
                     </p>
+                    @Html.HiddenFor(x => x.UserId)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">First Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="new-name" class="form-control" autocomplete="off" placeholder="name">
+                                    @*<input type="text" id="new-name" class="form-control" autocomplete="off" placeholder="name">*@
+                                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @maxlength = "20" })
 
                                 </div>
                             </div>
@@ -28,35 +30,44 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Email</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="new_email" autocomplete="off" placeholder="email">
+                                    @*<input type="text" class="form-control" id="new_email" autocomplete="off" placeholder="email">*@
+                                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @maxlength = "20" })
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Password</label>
-                                <div class="col-sm-9">
-                                    <input class="form-control" type="password" id="new-pass" autocomplete="off" placeholder="password">
+                    @{ if (Model.UserId == 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Password</label>
+                                        <div class="col-sm-9">
+                                            @*<input class="form-control" type="password" id="new-pass" autocomplete="off" placeholder="password">*@
+                                            @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @maxlength = "12" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Confirm Password</label>
+                                        <div class="col-sm-9">
+                                            <input type="password" class="form-control" autocomplete="off" id="new-cnfrmpass" placeholder="confirm password">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Confirm Password</label>
-                                <div class="col-sm-9">
-                                    <input type="password" class="form-control" autocomplete="off" id="new-cnfrmpass" placeholder="confirm password">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                        }
+                    }
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Mobile</label>
                                 <div class="col-sm-9">
-                                    <input id="mobileno" class="form-control number" autocomplete="off">
+                                    @*<input id="mobileno" class="form-control number" autocomplete="off">*@
+                                    @Html.TextBoxFor(x => x.Mobile, new { @class = "form-control", @maxlength = "12" })
                                 </div>
                             </div>
                         </div>
@@ -67,8 +78,19 @@
                                     <div class="form-check form-check-primary">
                                         <label class="form-check-label">
                                             Is Active
-                                            <input type="checkbox" name="IsActive" class="isactive form-check-input">
-                                            <i class="input-helper" name="IsActive"></i>
+                                            @{
+                                                if (Model.IsActive)
+                                                {
+                                                    <input type="checkbox" name="IsActive" class="isactive form-check-input" checked="">
+                                                    <i class="input-helper" name="IsActive"></i>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" name="IsActive" class="isactive form-check-input">
+                                                    <i class="input-helper" name="IsActive"></i>
+                                                }
+
+                                            }
 
                                         </label>
                                     </div>
@@ -77,17 +99,39 @@
                                     <div class="form-check form-check-primary">
                                         <label class="form-check-label">
                                             Is Admin
-                                            <input type="checkbox" name="IsAdmin" class="isadmin form-check-input">
-                                            <i class="input-helper" name="IsAdmin"></i>
+                                            @{
+                                                if (Model.IsAdmin)
+                                                {
+                                                    <input type="checkbox" name="IsAdmin" class="isadmin form-check-input" checked="">
+                                                    <i class="input-helper" name="IsAdmin"></i>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" name="IsAdmin" class="isadmin form-check-input">
+                                                    <i class="input-helper" name="IsAdmin"></i>
+                                                }
+
+                                            }
+
                                         </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="text-right">
-                        <button type="button" id="signup" class="btn btn-primary mr-2">Add User</button>
+                        @{ if (Model.UserId == 0)
+                            {
+                                <button type="button" id="signup" class="btn btn-primary mr-2">Add User</button>
+                            }
+                            else
+                            {
+                                <button type="button" id="signup" class="btn btn-primary mr-2">Update User</button>
+                            }
+                        }
+                       
                         @*<button class="btn btn-light">Cancel</button>*@
                         <a href="/AdminDashBoard" class="btn btn-light">Cancel</a>
                     </div>
@@ -113,12 +157,12 @@
     });
 
     $("#signup").click(function () {
-
-        var name = $("#new-name").val();
-        var email = $("#new_email").val();
-        var pass = $("#new-pass").val();
+        var userid = $("#UserId").val();
+        var name = $("#FirstName").val();
+        var email = $("#Email").val();
+        var pass = $("#Password").val();
         var cnfrm = $("#new-cnfrmpass").val();
-        var mobile = $("#mobileno").val();
+        var mobile = $("#Mobile").val();
         var isactive = $(".isactive").is(":checked") ? true : false;
         var isadmin = $(".isadmin").is(":checked") ? true : false;
         if (name == "") {
@@ -133,19 +177,23 @@
             alert('Invalid Email');
             return false
         }
-        else if (pass == "") {
+        else if (userid==0 && pass == "") {
             alert("please enter password.");
             return false;
         }
-        else if (cnfrm == "") {
+        else if (userid==0 && mobile == "") {
+            alert("please enter mobile");
+            return false;
+        }
+        else if (userid == 0 &&  cnfrm == "") {
             alert("please enter confirm password.");
             return false;
         }
-        else if (cnfrm != pass) {
+        else if (userid == 0 &&  cnfrm != pass) {
             alert("Password mismatch");
             return false;
         } $('.loader').show();
-        var data = { "email": email, "name": name, "password": pass, "Mobile": mobile, "IsActive": isactive, "IsAdmin": isadmin }
+        var data = {"Id":userid, "email": email, "name": name, "password": pass, "Mobile": mobile, "IsActive": isactive, "IsAdmin": isadmin }
         $.ajax({
             type: "Post",
             url: "/User/CreateUser",
@@ -156,6 +204,7 @@
                 $('.loader').hide();
                 if (result.Success) {
                     alert(result.Message);
+                    window.location.href = '@Url.Action("Index","User")';
                 }
                 else
                     alert(result.Message);

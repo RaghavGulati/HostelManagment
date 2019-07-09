@@ -184,7 +184,7 @@
         });
     });
 
-    $("#assignroom").click(function () {
+    $("#assignroom").click(function () 
         var roomid = $("#room-option option:selected").val();
 //        var userId = $("#userid").val();
         var requestId = $("#requestId").val();
@@ -199,6 +199,7 @@
                 $('.loader').hide();
                 if (result.Success) {
                     alert(result.Message);
+                    window.location.href = '@Url.Action("Index","Hostel")';
                 }
                 if (!result.Success) {
                     alert(result.Message);
@@ -228,6 +229,7 @@
             success: function (result) {
                 if (result.Success) {
                     alert(result.Message);
+                    window.location.href = '@Url.Action("Index","Hostel")';
                 }
                 if (!result.Success) {
                     alert(result.Message);

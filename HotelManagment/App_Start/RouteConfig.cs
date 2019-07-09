@@ -26,7 +26,7 @@ defaults: new { controller = "Login", action = "Logout" }
             routes.MapRoute(
         name: "UserDashBoard",
         url: "UserDashBoard",
-        defaults: new { controller = "User", action = "Index" }
+        defaults: new { controller = "User", action = "Dashboard" }
     );
 
             routes.MapRoute(
@@ -65,6 +65,12 @@ defaults: new { controller = "User", action = "Index" }
 name: "AddEditUser",
 url: "AddEditUser",
 defaults: new { controller = "User", action = "AddUser" }
+);
+
+            routes.MapRoute(
+name: "EditUser",
+url: "EditUser",
+defaults: new { controller = "User", action = "EditUser" }
 );
             routes.MapRoute(
 name: "AllCourses",

@@ -117,21 +117,6 @@
 
                             </div>
                             <div class="row">
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Address 2</label>
@@ -195,7 +180,7 @@
                                 </div>
                             </div>
                             <div class="text-right">
-                                <button type="button" id="save-btn" class="btn btn-primary mr-2">Update Profile</button>
+                                <button type="button" id="save-btn" class="btn btn-primary mr-2">Book Room</button>
                                 <button class="btn btn-light cancel">Cancel</button>
                             </div>
                         }
@@ -294,6 +279,7 @@
                 $('.loader').hide();
                 if (result.Success) {
                     alert(result.Message);
+                    window.location.href = '@Url.Action("Index","User")';
                 }
                 else
                     alert(result.Message);

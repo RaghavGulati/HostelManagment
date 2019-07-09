@@ -71,6 +71,10 @@ namespace HotelManagment.Controllers
                 }
                 else
                 {
+                    info.RoomChangres = model.RoomChangres;
+                    info.Description = model.Description;
+                    info.NoOfBeds = model.NoOfBeds;
+                    info.Floor = model.Floor;
                     helper.ManageLogs(session.UserId, "Room Number " + model.RoomNo + " updated by " + session.FirstName + " " + session.LastName);
                 }
                 entity.HostelRooms.Add(model);

@@ -9,7 +9,7 @@
             <h4 class="font-weight-bold mb-0">Registered Users</h4>
         </div>
         <div>
-            <a href="/User/AddUser" class="btn btn-primary btn-icon-text btn-rounded show-loader"><i class="ti-plus btn-icon-prepend"></i>Add New User</a>
+            <a href="/AddEditUser" class="btn btn-primary btn-icon-text btn-rounded show-loader"><i class="ti-plus btn-icon-prepend"></i>Add New User</a>
         </div>
     </div>
 </div>
@@ -30,6 +30,7 @@
                             <th>Date Of Birth</th>
                             <th>Gender</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,7 +43,14 @@
                                     <td>@cors.Mobile</td>
                                     <td>@cors.Dob</td>
                                     <td>@cors.Gender</td>
-                                    <td><a href="/MyProfile?Id=@cors.Id">Edit</a></td>
+                                    <td><a href="/AddEditUser?Id=@cors.Id">Edit</a></td>
+                                    <td>
+                                        @{if (cors.IsProfileCompleted == true)
+                                            {
+                                                <a href="/MyProfile?Id=@cors.Id">View Profile</a>
+                                            }
+                                        }
+                                    </td>
                                 </tr>
                             }
                         }
