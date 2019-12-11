@@ -8,6 +8,7 @@ using System.Web;
 
 namespace HotelManagment.Helpers
 {
+
     public class Common
     {
         HostelManagmentEntities entity = new HostelManagmentEntities();
